@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:layout_marginHorizontal="10dp"
+    android:layout_gravity="center"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/layoutLine"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imgItemFilm"
+            android:scaleType="centerInside"
+            android:background="@drawable/custom_bg_film_in_detail"
+            android:layout_width="155dp"
+            android:layout_height="90dp"/>
+
+        <TextView
+            android:id="@+id/time"
+            android:textSize="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/imgItemFilm"
+            android:layout_alignBottom="@+id/imgItemFilm"
+            android:layout_margin="5dp"
+            android:textColor="@color/whileColor" />
+    </RelativeLayout>
+
+
+
+    <ImageView
+        android:src="@drawable/ic_multimedia"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:layout_width="30dp"
+        android:layout_height="30dp"/>
+
+    <TextView
+        android:id="@+id/txtNameFilm"
+        android:fontFamily="@font/roboto_light"
+        android:textStyle="bold"
+        android:layout_below="@+id/layoutLine"
+        android:layout_width="match_parent"
+        android:layout_marginTop="25dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="2"
+        android:singleLine="true"
+        android:textColor="@color/whileColor"
+        android:textSize="13dp" />
+
+
+</RelativeLayout>
+
+

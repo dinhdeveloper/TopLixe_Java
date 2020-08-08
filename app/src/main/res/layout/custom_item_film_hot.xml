@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="10dp"
+    android:orientation="vertical"
+    android:id="@+id/layoutClick"
+    app:cardUseCompatPadding="true">
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imgItemFilm"
+            android:src="@color/whileColor"
+            android:layout_width="115dp"
+            android:layout_height="155dp"
+            android:scaleType="center" />
+
+        <TextView
+            android:id="@+id/time"
+            android:textSize="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/imgItemFilm"
+            android:layout_alignBottom="@+id/imgItemFilm"
+            android:layout_margin="5dp"
+            android:textColor="@color/whileColor" />
+    </RelativeLayout>
+
+
+
+    <TextView
+        android:id="@+id/txtNameFilm"
+        android:fontFamily="@font/roboto_light"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:ellipsize="end"
+        android:gravity="start"
+        android:maxLines="1"
+        android:layout_marginLeft="2dp"
+        android:singleLine="true"
+        android:textStyle="bold"
+        android:textColor="@color/whileColor"
+        android:textSize="13dp" />
+
+
+    <TextView
+        android:id="@+id/txtAd"
+        android:fontFamily="@font/roboto_light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:ellipsize="end"
+        android:gravity="start"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textColor="@color/whileColor"
+        android:textSize="12dp"
+        android:layout_marginLeft="2dp"/>
+</LinearLayout>
+
+

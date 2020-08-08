@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginRight="10dp"
+    android:orientation="vertical"
+    app:cardUseCompatPadding="true">
+
+    <ImageView
+        android:id="@+id/imgItem"
+        android:src="@color/whileColor"
+        android:layout_width="115dp"
+        android:layout_height="145dp"
+        android:scaleType="centerInside" />
+
+    <TextView
+        android:id="@+id/txtName"
+        android:fontFamily="@font/roboto_light"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:ellipsize="end"
+        android:gravity="start"
+        android:maxLines="1"
+        android:layout_marginLeft="3dp"
+        android:singleLine="true"
+        android:textStyle="bold"
+        android:textColor="@color/whileColor"
+        android:textSize="13dp" />
+
+
+    <TextView
+        android:id="@+id/txtMore"
+        android:fontFamily="@font/roboto_light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:ellipsize="end"
+        android:gravity="start"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textColor="@color/whileColor"
+        android:textSize="12dp"
+        android:layout_marginLeft="3dp"/>
+
+</LinearLayout>

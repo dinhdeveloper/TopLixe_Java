@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_above="@+id/navBottom"
+    android:background="@color/hinhnen">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginVertical="0dp"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <ImageView
+                    android:id="@+id/icon_person"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:src="@drawable/ic_person_while" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="APP MUSIC"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textColor="#CDD5D4"
+                    android:textSize="23dp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/icon_notification"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:src="@drawable/ic_notifications_while" />
+
+            </LinearLayout>
+
+<!--            <com.smarteist.autoimageslider.SliderView-->
+<!--                android:id="@+id/imgSlider"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="150dp"-->
+<!--                app:sliderAnimationDuration="200"-->
+<!--                app:sliderAutoCycleDirection="back_and_forth"-->
+<!--                app:sliderAutoCycleEnabled="true"-->
+<!--                app:sliderCircularHandlerEnabled="true"-->
+<!--                app:sliderIndicatorAnimationDuration="100"-->
+<!--                app:sliderIndicatorGravity="center_horizontal|bottom"-->
+<!--                app:sliderIndicatorMargin="15dp"-->
+<!--                app:sliderIndicatorOrientation="horizontal"-->
+<!--                app:sliderIndicatorPadding="3dp"-->
+<!--                app:sliderIndicatorRadius="5dp"-->
+<!--                app:sliderIndicatorSelectedColor="#8E8C8C"-->
+<!--                app:sliderIndicatorUnselectedColor="#FFF"-->
+<!--                app:sliderScrollTimeInSec="2"-->
+<!--                app:sliderStartAutoCycle="true" />-->
+            <ImageView
+                android:layout_marginVertical="10dp"
+                android:scaleType="fitXY"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:src="@drawable/unnamed" />
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_nghegi"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/blacktwo"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                app:cardElevation="5dp"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:paddingHorizontal="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/blacktwo"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="5dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:text="Nghe Gì Hôm Nay"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="@color/whileColor"
+                            android:textSize="15dp" />
+                        <ImageView
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginRight="3dp"
+                            android:background="@drawable/custom_border_more"
+                            android:layout_gravity="bottom"
+                            android:src="@drawable/ic_right_24"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:visibility="gone"/>
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rc_songrandom"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbarAlwaysDrawHorizontalTrack="true"
+                        android:scrollbarSize="6dp"
+                        android:scrollbarStyle="outsideInset"
+                        android:scrollbarThumbHorizontal="@drawable/custom_scollbar_rc"
+                        android:scrollbars="horizontal"
+                        android:verticalScrollbarPosition="right" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_musicrank"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/blacktwo"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                app:cardElevation="5dp"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:paddingHorizontal="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/blacktwo"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="5dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:text="Bài Hát Mới Phát Hành"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="@color/whileColor"
+                            android:textSize="15dp" />
+                        <ImageView
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginRight="3dp"
+                            android:background="@drawable/custom_border_more"
+                            android:layout_gravity="bottom"
+                            android:src="@drawable/ic_right_24"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:visibility="gone"/>
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rc_musicrank"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_filmnew"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/blacktwo"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                app:cardElevation="5dp"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:paddingHorizontal="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/blacktwo"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="5dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:text="Phim Mới Phát Hành"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="@color/whileColor"
+                            android:textSize="15dp" />
+                        <ImageView
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginRight="3dp"
+                            android:background="@drawable/custom_border_more"
+                            android:layout_gravity="bottom"
+                            android:src="@drawable/ic_right_24"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:visibility="gone"/>
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rc_filmnew"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbarAlwaysDrawHorizontalTrack="true"
+                        android:scrollbarSize="6dp"
+                        android:scrollbarStyle="outsideInset"
+                        android:scrollbarThumbHorizontal="@drawable/custom_scollbar_rc"
+                        android:scrollbars="horizontal"
+                        android:verticalScrollbarPosition="right" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_actor_hot"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/blacktwo"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                app:cardElevation="5dp"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:paddingHorizontal="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/blacktwo"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="5dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:text="Phim Mới Phát Hành"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="@color/whileColor"
+                            android:textSize="15dp" />
+                        <ImageView
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginRight="3dp"
+                            android:background="@drawable/custom_border_more"
+                            android:layout_gravity="bottom"
+                            android:src="@drawable/ic_right_24"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:visibility="gone"/>
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rc_actor_hot"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbarAlwaysDrawHorizontalTrack="true"
+                        android:scrollbarSize="6dp"
+                        android:scrollbarStyle="outsideInset"
+                        android:scrollbarThumbHorizontal="@drawable/custom_scollbar_rc"
+                        android:scrollbars="horizontal"
+                        android:verticalScrollbarPosition="right" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_film_goiy"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/blacktwo"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                app:cardElevation="5dp"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:paddingHorizontal="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/blacktwo"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="5dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:text="Phim Gợi Ý"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="@color/whileColor"
+                            android:textSize="15dp" />
+<!--                        <ImageView-->
+<!--                            android:layout_marginBottom="8dp"-->
+<!--                            android:layout_marginRight="3dp"-->
+<!--                            android:background="@drawable/custom_border_more"-->
+<!--                            android:layout_gravity="bottom"-->
+<!--                            android:src="@drawable/ic_right_24"-->
+<!--                            android:layout_width="16dp"-->
+<!--                            android:layout_height="16dp"/>-->
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rc_film_goiy"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbarAlwaysDrawHorizontalTrack="true"
+                        android:scrollbarSize="6dp"
+                        android:scrollbarStyle="outsideInset"
+                        android:scrollbarThumbHorizontal="@drawable/custom_scollbar_rc"
+                        android:scrollbars="horizontal"
+                        android:verticalScrollbarPosition="right" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_song_goiy"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/blacktwo"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                app:cardElevation="5dp"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:paddingHorizontal="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/blacktwo"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="5dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:text="Nhạc Gợi Ý"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="@color/whileColor"
+                            android:textSize="15dp" />
+                        <!--                        <ImageView-->
+                        <!--                            android:layout_marginBottom="8dp"-->
+                        <!--                            android:layout_marginRight="3dp"-->
+                        <!--                            android:background="@drawable/custom_border_more"-->
+                        <!--                            android:layout_gravity="bottom"-->
+                        <!--                            android:src="@drawable/ic_right_24"-->
+                        <!--                            android:layout_width="16dp"-->
+                        <!--                            android:layout_height="16dp"/>-->
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rc_song_goiy"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbarAlwaysDrawHorizontalTrack="true"
+                        android:scrollbarSize="6dp"
+                        android:scrollbarStyle="outsideInset"
+                        android:scrollbarThumbHorizontal="@drawable/custom_scollbar_rc"
+                        android:scrollbars="horizontal"
+                        android:verticalScrollbarPosition="right" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

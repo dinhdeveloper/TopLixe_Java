@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_above="@+id/navBottom"
+    android:background="@color/hinhnen"
+    android:paddingHorizontal="10dp"
+    android:id="@+id/fragmentfilm"
+    android:paddingTop="7dp">
+
+<!--    <com.facebook.shimmer.ShimmerFrameLayout-->
+<!--        android:id="@+id/shimmer_view_product"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:orientation="vertical"-->
+<!--        app:shimmer_duration="800"-->
+<!--        android:visibility="visible"-->
+<!--        tools:ignore="MissingConstraints"-->
+<!--        tools:visibility="gone">-->
+
+<!--        &lt;!&ndash; 3 rows added as a placeholders &ndash;&gt;-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical">-->
+
+<!--            <include layout="@layout/custom_animation" />-->
+
+<!--            <include layout="@layout/custom_animation" />-->
+
+<!--            <include layout="@layout/custom_animation" />-->
+
+<!--            <include layout="@layout/custom_animation" />-->
+
+<!--            <include layout="@layout/custom_animation" />-->
+
+<!--            <include layout="@layout/custom_animation" />-->
+
+<!--            <include layout="@layout/custom_animation" />-->
+
+<!--            <include layout="@layout/custom_animation" />-->
+
+<!--        </LinearLayout>-->
+
+<!--    </com.facebook.shimmer.ShimmerFrameLayout>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgUser"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/person" />
+
+        <TextView
+            android:id="@+id/txtNameUser"
+            android:fontFamily="@font/roboto_bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            android:text="Trần Cảnh Dinh"
+            android:textColor="@color/whileColor"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/img_search"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_search_white_24dp" />
+
+        <LinearLayout
+            android:id="@+id/layoutSearch"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:background="@drawable/custom_background_search"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:paddingHorizontal="10dp">
+            <EditText
+                android:id="@+id/edtSearch"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:textColor="@color/whileColor"
+                android:textSize="14dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_weight="1"
+                android:background="@color/hinhnen"
+                android:hint="Tên bài hát"
+                android:textColorHint="@color/lightblack"/>
+
+            <ImageView
+                android:id="@+id/imvCloseSearch"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ico_delete_asset" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginVertical="0dp"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_marginVertical="10dp"
+                android:scaleType="fitXY"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:src="@drawable/unnamed" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_hot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/blacktwo"
+                android:layout_marginBottom="5dp"
+                app:cardElevation="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/blacktwo"
+                    android:orientation="vertical"
+                    android:paddingBottom="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="3dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingLeft="3dp"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:text="Hot Nhất Trong Tuần"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="@color/whileColor"
+                            android:textSize="15dp"
+                            android:textAllCaps="false"/>
+                        <ImageView
+                            android:id="@+id/film_hot_more"
+                            android:padding="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginRight="3dp"
+                            android:background="@drawable/custom_border_more"
+                            android:layout_gravity="bottom"
+                            android:src="@drawable/ic_right_24"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:visibility="gone"/>
+
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rc_listHot"
+                        android:layout_marginTop="3dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbarAlwaysDrawHorizontalTrack="true"
+                        android:scrollbarSize="6dp"
+                        android:scrollbarStyle="outsideInset"
+                        android:scrollbarThumbHorizontal="@drawable/custom_scollbar_rc"
+                        android:scrollbars="horizontal"
+                        android:verticalScrollbarPosition="right" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_recommend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/blacktwo"
+                android:paddingBottom="5dp"
+                app:cardElevation="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/blacktwo"
+                    android:orientation="vertical"
+                    android:paddingBottom="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="3dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_marginLeft="3dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingLeft="5dp"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:text="Top phim"
+                            android:textColor="@color/whileColor"
+                            android:textSize="15dp"/>
+                        <ImageView
+                            android:id="@+id/film_more"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginRight="3dp"
+                            android:background="@drawable/custom_border_more"
+                            android:layout_gravity="bottom"
+                            android:src="@drawable/ic_right_24"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:visibility="gone"/>
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rc_listSuggest"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbarAlwaysDrawHorizontalTrack="true"
+                        android:scrollbarSize="6dp"
+                        android:scrollbarStyle="outsideInset"
+                        android:scrollbarThumbHorizontal="@drawable/custom_scollbar_rc"
+                        android:scrollbars="horizontal"
+                        android:verticalScrollbarPosition="right" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_actor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/blacktwo"
+                app:cardElevation="5dp">
+
+                <LinearLayout
+                    android:id="@+id/layoutFilm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/blacktwo"
+                    android:orientation="vertical"
+                    android:paddingBottom="5dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="5dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_marginLeft="3dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingLeft="5dp"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:text="Diễn Viên Nổi Tiếng"
+                            android:textColor="@color/whileColor"
+                            android:textSize="15dp"/>
+                        <ImageView
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginRight="3dp"
+                            android:background="@drawable/custom_border_more"
+                            android:layout_gravity="bottom"
+                            android:src="@drawable/ic_right_24"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:visibility="gone"/>
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rc_actor"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbarAlwaysDrawHorizontalTrack="true"
+                        android:scrollbarSize="6dp"
+                        android:scrollbarStyle="outsideInset"
+                        android:scrollbarThumbHorizontal="@drawable/custom_scollbar_rc"
+                        android:scrollbars="horizontal"
+                        android:verticalScrollbarPosition="right" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="5dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="3dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="Gợi Ý Cho Bạn"
+                    android:textColor="@color/whileColor"
+                    android:textSize="15dp"/>
+<!--                <ImageView-->
+<!--                    android:layout_marginBottom="5dp"-->
+<!--                    android:layout_marginRight="3dp"-->
+<!--                    android:background="@drawable/custom_border_more"-->
+<!--                    android:layout_gravity="bottom"-->
+<!--                    android:src="@drawable/ic_right_24"-->
+<!--                    android:layout_width="20dp"-->
+<!--                    android:layout_height="20dp"/>-->
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rc_listFilm"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <include layout="@layout/custom_loading"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>
