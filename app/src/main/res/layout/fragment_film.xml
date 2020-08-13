@@ -103,7 +103,7 @@
                 android:layout_marginHorizontal="5dp"
                 android:layout_weight="1"
                 android:background="@color/hinhnen"
-                android:hint="Tên bài hát"
+                android:hint="Tên phim"
                 android:textColorHint="@color/lightblack"/>
 
             <ImageView
@@ -116,7 +116,15 @@
 
     </LinearLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listResultSearch"
+        android:visibility="gone"
+        android:layout_marginVertical="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <androidx.core.widget.NestedScrollView
+        android:id="@id/layoutFilm"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginVertical="0dp"

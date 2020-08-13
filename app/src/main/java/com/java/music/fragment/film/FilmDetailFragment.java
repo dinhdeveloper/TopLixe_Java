@@ -21,6 +21,7 @@ import com.java.music.R;
 import com.java.music.adapter.film.FilmHasPageAdapter;
 import com.java.music.api.APIService;
 import com.java.music.api.APIUntil;
+import com.java.music.model.Token;
 import com.java.music.model.film.FilmEntityModel;
 
 import java.util.List;
@@ -42,6 +43,8 @@ public class FilmDetailFragment extends Fragment {
     ImageView onBack;
     FilmEntityModel entityModel;
     TextView txtNameFilm, txtDescription;
+
+    Token token = new Token();
 
     public FilmDetailFragment() {
         // Required empty public constructor
@@ -76,7 +79,8 @@ public class FilmDetailFragment extends Fragment {
     }
 
     private void getDataMore() {
-        apiService.getHasPageFilm(20, 0).enqueue(new Callback<List<FilmEntityModel>>() {
+        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        apiService.getHasPageFilm(token,20, 0).enqueue(new Callback<List<FilmEntityModel>>() {
             @Override
             public void onResponse(Call<List<FilmEntityModel>> call, Response<List<FilmEntityModel>> response) {
                 if (response.isSuccessful()) {

@@ -5,7 +5,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +33,16 @@ public class AlbumActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album_detail);
 
+        if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
+            View v = this.getWindow().getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else if (Build.VERSION.SDK_INT >= 19) {
+            //for new api versions.
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
+
         imvBackAblum = findViewById(R.id.imvBackAblum);
         albumName = findViewById(R.id.albumName);
         rc_load_music_more = findViewById(R.id.rc_load_music_more);
@@ -54,7 +66,7 @@ public class AlbumActivity extends AppCompatActivity {
                     }
                     MEDIAPLAYER = null;
 
-                    String customURL = Const.HOST_MUSIC+ model.getUploadsource();
+                    String customURL = model.getUploadsource();
 
                     if (isValid(customURL)) {
                         Intent intents = new Intent(getApplicationContext(), SongDetailActivity.class);
@@ -65,6 +77,7 @@ public class AlbumActivity extends AppCompatActivity {
                     } else {
                         Toast.makeText(getApplicationContext(), "Link nhạc không tồn tại", Toast.LENGTH_SHORT).show();
                     }
+
                 }
             });
         }

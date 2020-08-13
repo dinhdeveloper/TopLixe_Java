@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -12,23 +13,37 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.java.music.R;
 import com.java.music.activity.FilmDetailActivity;
+import com.java.music.activity.SongDetailActivity;
 import com.java.music.adapter.actor.FilmActorAdapter;
 import com.java.music.adapter.film.FilmHasPageAdapter;
+import com.java.music.adapter.film.FilmSearchAdapter;
 import com.java.music.adapter.film.FilmSuggrestionHomeAdapter;
+import com.java.music.adapter.song.SongSearchAdapter;
 import com.java.music.api.APIService;
 import com.java.music.api.APIUntil;
 import com.java.music.common.Const;
 import com.java.music.fragment.film.FilmDetailFragment;
+import com.java.music.model.Token;
 import com.java.music.model.actor.ActorEntity;
 import com.java.music.model.actor.ActorEntityModel;
+import com.java.music.model.film.FilmEntity;
 import com.java.music.model.film.FilmEntityModel;
+import com.java.music.model.song.SongEntityModel;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,9 +58,16 @@ import static com.java.music.fragment.home.HomeFragment.isValid;
 public class FilmFragment extends Fragment {
 
     APIService apiService;
+    NestedScrollView layoutFilm;
+    RecyclerView listResultSearch;
+    ImageView img_search,imvCloseSearch;
+    LinearLayout layoutSearch;
+    EditText edtSearch;
 
     CardView card_hot, card_recommend, card_actor;
     RecyclerView rc_listHot, rc_listSuggest, rc_actor, rc_listFilm;
+
+    Token token = new Token();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,11 +83,91 @@ public class FilmFragment extends Fragment {
         callActor();
         callFilmHasPage();
 
+        onClick();
+
         return view;
+    }
+    private void onClick() {
+        img_search.setOnClickListener(v -> {
+            layoutSearch.setVisibility(View.VISIBLE);
+            img_search.setVisibility(View.GONE);
+            edtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                    if (edtSearch.getText().toString() != null && !edtSearch.getText().toString().isEmpty()) {
+                        if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                            searchFilm(edtSearch.getText().toString());
+                            return true;
+                        }
+                    }
+                    Toast.makeText(getContext(), "Không có kết quả tìm kiếm!", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            });
+
+            imvCloseSearch.setOnClickListener(v1 -> {
+                layoutSearch.setVisibility(View.GONE);
+                img_search.setVisibility(View.VISIBLE);
+
+                listResultSearch.setVisibility(View.GONE);
+                layoutFilm.setVisibility(View.VISIBLE);
+            });
+        });
+    }
+
+    private void searchFilm(String search) {
+        if (search != null) {
+            token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+            apiService.getSearchFilm(token, search).enqueue(new Callback<List<FilmEntityModel>>() {
+                @Override
+                public void onResponse(Call<List<FilmEntityModel>> call, Response<List<FilmEntityModel>> response) {
+                    if (response.isSuccessful()) {
+                        if (!response.body().isEmpty()){
+                            listResultSearch.setVisibility(View.VISIBLE);
+                            layoutFilm.setVisibility(View.GONE);
+                            FilmSearchAdapter adapter = new FilmSearchAdapter(response.body(), getContext());
+                            listResultSearch.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                            listResultSearch.setAdapter(adapter);
+                            listResultSearch.setHasFixedSize(true);
+                            adapter.notifyDataSetChanged();
+                            adapter.setListenner(entity -> {
+                                if (entity != null) {
+                                    if (MEDIAPLAYER != null) {
+                                        MEDIAPLAYER.stop();
+                                        MEDIAPLAYER.reset();
+                                        MEDIAPLAYER.release();
+                                    }
+                                    MEDIAPLAYER = null;
+                                    String customURL = Const.HOST_MUSIC + entity.getFilmEntity().getUploadsource();
+
+                                    if (isValid(customURL)) {
+                                        Intent intent = new Intent(getContext(), FilmDetailActivity.class);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putSerializable("model", entity);
+                                        intent.putExtras(bundle);
+                                        startActivity(intent);
+                                    } else {
+                                        Toast.makeText(getContext(), "Link phim không tồn tại", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }else {
+                            Toast.makeText(getContext(), "Không tìm thấy phim", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<FilmEntityModel>> call, Throwable t) {
+                    Log.e("onFailure", t.getMessage());
+                }
+            });
+        }
     }
 
     private void callFilmHasPage() {
-        apiService.getHasPageFilm(10, 0).enqueue(new Callback<List<FilmEntityModel>>() {
+        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        apiService.getHasPageFilm(token,10, 0).enqueue(new Callback<List<FilmEntityModel>>() {
             @Override
             public void onResponse(Call<List<FilmEntityModel>> call, Response<List<FilmEntityModel>> response) {
                 if (response.isSuccessful()) {
@@ -82,12 +184,12 @@ public class FilmFragment extends Fragment {
                                 MEDIAPLAYER.release();
                             }
                             MEDIAPLAYER = null;
-                            String customURL = Const.HOST_MUSIC+ model.getFilmEntity().getUploadsource();
+                            String customURL = Const.HOST_MUSIC + model.getFilmEntity().getUploadsource();
 
                             if (isValid(customURL)) {
                                 Intent intent = new Intent(getContext(), FilmDetailActivity.class);
                                 Bundle bundle = new Bundle();
-                                bundle.putSerializable("model",model);
+                                bundle.putSerializable("model", model);
                                 intent.putExtras(bundle);
                                 startActivity(intent);
                             } else {
@@ -106,22 +208,24 @@ public class FilmFragment extends Fragment {
     }
 
     private void callActor() {
-        apiService.getActor(10, 0).enqueue(new Callback<List<ActorEntityModel>>() {
+        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        apiService.getActor( token,10, 0).enqueue(new Callback<List<ActorEntityModel>>() {
             @Override
             public void onResponse(Call<List<ActorEntityModel>> call, Response<List<ActorEntityModel>> response) {
                 if (response.isSuccessful()) {
-                    card_actor.setVisibility(View.VISIBLE);
-                    rc_actor.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-                    FilmActorAdapter songRandomHomeAdapter = new FilmActorAdapter(getContext(), response.body());
-                    rc_actor.setAdapter(songRandomHomeAdapter);
-                    songRandomHomeAdapter.notifyDataSetChanged();
-                    songRandomHomeAdapter.setListener(model -> {
-                        Intent intent = new Intent(getContext(), ActorEntity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("model",model);
-                        intent.putExtras(bundle);
-                        startActivity(intent);
-                    });
+                    Log.e("AAAAA",response.body().size()+"");
+//                    card_actor.setVisibility(View.VISIBLE);
+//                    rc_actor.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+//                    FilmActorAdapter songRandomHomeAdapter = new FilmActorAdapter(getContext(), response.body());
+//                    rc_actor.setAdapter(songRandomHomeAdapter);
+//                    songRandomHomeAdapter.notifyDataSetChanged();
+//                    songRandomHomeAdapter.setListener(model -> {
+//                        Intent intent = new Intent(getContext(), ActorEntity.class);
+//                        Bundle bundle = new Bundle();
+//                        bundle.putSerializable("model", model);
+//                        intent.putExtras(bundle);
+//                        startActivity(intent);
+//                    });
                 }
             }
 
@@ -133,7 +237,8 @@ public class FilmFragment extends Fragment {
     }
 
     private void callGoiYChoBan() {
-        apiService.getAllFilm().enqueue(new Callback<List<FilmEntityModel>>() {
+        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        apiService.getAllFilm(token).enqueue(new Callback<List<FilmEntityModel>>() {
             @Override
             public void onResponse(Call<List<FilmEntityModel>> call, Response<List<FilmEntityModel>> response) {
                 if (response.isSuccessful()) {
@@ -150,12 +255,12 @@ public class FilmFragment extends Fragment {
                                 MEDIAPLAYER.release();
                             }
                             MEDIAPLAYER = null;
-                            String customURL = Const.HOST_MUSIC+ model.getFilmEntity().getUploadsource();
+                            String customURL = Const.HOST_MUSIC + model.getFilmEntity().getUploadsource();
 
                             if (isValid(customURL)) {
                                 Intent intent = new Intent(getContext(), FilmDetailActivity.class);
                                 Bundle bundle = new Bundle();
-                                bundle.putSerializable("model",model);
+                                bundle.putSerializable("model", model);
                                 intent.putExtras(bundle);
                                 startActivity(intent);
                             } else {
@@ -174,7 +279,8 @@ public class FilmFragment extends Fragment {
     }
 
     private void callFilmHot() {
-        apiService.getAllFilm().enqueue(new Callback<List<FilmEntityModel>>() {
+        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        apiService.getAllFilm(token).enqueue(new Callback<List<FilmEntityModel>>() {
             @Override
             public void onResponse(Call<List<FilmEntityModel>> call, Response<List<FilmEntityModel>> response) {
                 if (response.isSuccessful()) {
@@ -191,12 +297,12 @@ public class FilmFragment extends Fragment {
                                 MEDIAPLAYER.release();
                             }
                             MEDIAPLAYER = null;
-                            String customURL = Const.HOST_MUSIC+ model.getFilmEntity().getUploadsource();
+                            String customURL = Const.HOST_MUSIC + model.getFilmEntity().getUploadsource();
 
                             if (isValid(customURL)) {
                                 Intent intent = new Intent(getContext(), FilmDetailActivity.class);
                                 Bundle bundle = new Bundle();
-                                bundle.putSerializable("model",model);
+                                bundle.putSerializable("model", model);
                                 intent.putExtras(bundle);
                                 startActivity(intent);
                             } else {
@@ -222,5 +328,11 @@ public class FilmFragment extends Fragment {
         rc_listSuggest = view.findViewById(R.id.rc_listSuggest);
         rc_actor = view.findViewById(R.id.rc_actor);
         rc_listFilm = view.findViewById(R.id.rc_listFilm);
+        layoutFilm = view.findViewById(R.id.layoutFilm);
+        listResultSearch = view.findViewById(R.id.listResultSearch);
+        img_search = view.findViewById(R.id.img_search);
+        imvCloseSearch = view.findViewById(R.id.imvCloseSearch);
+        layoutSearch = view.findViewById(R.id.layoutSearch);
+        edtSearch = view.findViewById(R.id.edtSearch);
     }
 }

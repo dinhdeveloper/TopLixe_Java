@@ -28,6 +28,7 @@ import com.java.music.api.APIService;
 import com.java.music.api.APIUntil;
 import com.java.music.common.Const;
 import com.java.music.fragment.film.FilmDetailFragment;
+import com.java.music.model.Token;
 import com.java.music.model.film.FilmEntityModel;
 import com.java.music.model.song.SongEntityModel;
 
@@ -42,9 +43,11 @@ import static com.java.music.activity.MainActivity.MEDIAPLAYER;
 
 public class HomeFragment extends Fragment {
 
+    Token token = new Token();
+
     APIService apiService;
-    RecyclerView rc_songrandom,rc_musicrank,rc_filmnew,rc_actor_hot,rc_film_goiy,rc_song_goiy;
-    CardView card_nghegi,card_musicrank,card_filmnew,card_actor_hot,card_film_goiy,card_song_goiy;
+    RecyclerView rc_songrandom, rc_musicrank, rc_filmnew, rc_actor_hot, rc_film_goiy, rc_song_goiy;
+    CardView card_nghegi, card_musicrank, card_filmnew, card_actor_hot, card_film_goiy, card_song_goiy;
 
 
     @Override
@@ -53,7 +56,7 @@ public class HomeFragment extends Fragment {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_home, container, false);
 
         apiService = APIUntil.getServer();
-        
+
         addControls(view);
 
         loadSongRandom();
@@ -82,34 +85,39 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadSongSuggress() {
-        apiService.getAllSong().enqueue(new Callback<List<SongEntityModel>>() {
+        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        apiService.getAllSong(token).enqueue(new Callback<List<SongEntityModel>>() {
             @Override
             public void onResponse(Call<List<SongEntityModel>> call, Response<List<SongEntityModel>> response) {
                 if (response.isSuccessful()) {
                     card_song_goiy.setVisibility(View.VISIBLE);
-                    rc_song_goiy.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-                    SongSuggressHomeAdapter suggressHomeAdapter = new SongSuggressHomeAdapter(getContext(),response.body());
+                    rc_song_goiy.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                    SongSuggressHomeAdapter suggressHomeAdapter = new SongSuggressHomeAdapter(getContext(), response.body());
                     rc_song_goiy.setAdapter(suggressHomeAdapter);
                     suggressHomeAdapter.notifyDataSetChanged();
-                    suggressHomeAdapter.setListener(model ->{
+                    suggressHomeAdapter.setListener(model -> {
                         if (model != null) {
+
                             if (MEDIAPLAYER != null) {
                                 MEDIAPLAYER.stop();
                                 MEDIAPLAYER.reset();
                                 MEDIAPLAYER.release();
                             }
                             MEDIAPLAYER = null;
-                            String customURL = Const.HOST_MUSIC+ model.getSongEntity().getUploadsource();
+
+                            String customURL = model.getSongEntity().getUploadsource();
 
                             if (isValid(customURL)) {
                                 Intent intent = new Intent(getContext(), SongDetailActivity.class);
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable("model", model.getSongEntity());
-                                intent.putExtras(bundle);
+                                intent.putExtra("model", model.getSongEntity().getId());
+//                                Bundle bundle = new Bundle();
+//                                bundle.putSerializable("model", model.getSongEntity());
+//                                intent.putExtras(bundle);
                                 startActivity(intent);
                             } else {
                                 Toast.makeText(getContext(), "Link nhạc không tồn tại", Toast.LENGTH_SHORT).show();
                             }
+
                         }
                     });
                 }
@@ -123,16 +131,17 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadFilmSugges() {
-        apiService.getAllFilm().enqueue(new Callback<List<FilmEntityModel>>() {
+        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        apiService.getAllFilm(token).enqueue(new Callback<List<FilmEntityModel>>() {
             @Override
             public void onResponse(Call<List<FilmEntityModel>> call, Response<List<FilmEntityModel>> response) {
                 if (response.isSuccessful()) {
                     card_film_goiy.setVisibility(View.VISIBLE);
-                    rc_film_goiy.setLayoutManager(new GridLayoutManager(getContext(),3));
-                    FilmSuggrestionHomeAdapter filmSuggrestionHomeAdapter = new FilmSuggrestionHomeAdapter(getContext(),response.body());
+                    rc_film_goiy.setLayoutManager(new GridLayoutManager(getContext(), 3));
+                    FilmSuggrestionHomeAdapter filmSuggrestionHomeAdapter = new FilmSuggrestionHomeAdapter(getContext(), response.body());
                     rc_film_goiy.setAdapter(filmSuggrestionHomeAdapter);
                     filmSuggrestionHomeAdapter.notifyDataSetChanged();
-                    filmSuggrestionHomeAdapter.setListener(model ->{
+                    filmSuggrestionHomeAdapter.setListener(model -> {
                         if (model != null) {
                             if (MEDIAPLAYER != null) {
                                 MEDIAPLAYER.stop();
@@ -142,12 +151,12 @@ public class HomeFragment extends Fragment {
                             MEDIAPLAYER = null;
 
 
-                            String customURL = Const.HOST_MUSIC+ model.getFilmEntity().getUploadsource();
+                            String customURL = Const.HOST_MUSIC + model.getFilmEntity().getUploadsource();
 
                             if (isValid(customURL)) {
                                 Intent intent = new Intent(getContext(), FilmDetailActivity.class);
                                 Bundle bundle = new Bundle();
-                                bundle.putSerializable("model",model);
+                                bundle.putSerializable("model", model);
                                 intent.putExtras(bundle);
                                 startActivity(intent);
                             } else {
@@ -166,16 +175,17 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadFilmNewHome() {
-        apiService.getAllFilm().enqueue(new Callback<List<FilmEntityModel>>() {
+        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        apiService.getAllFilm(token).enqueue(new Callback<List<FilmEntityModel>>() {
             @Override
             public void onResponse(Call<List<FilmEntityModel>> call, Response<List<FilmEntityModel>> response) {
                 if (response.isSuccessful()) {
                     card_filmnew.setVisibility(View.VISIBLE);
-                    rc_filmnew.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
-                    FilmNewHomeAdapter filmNewHomeAdapter = new FilmNewHomeAdapter(getContext(),response.body());
+                    rc_filmnew.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                    FilmNewHomeAdapter filmNewHomeAdapter = new FilmNewHomeAdapter(getContext(), response.body());
                     rc_filmnew.setAdapter(filmNewHomeAdapter);
                     filmNewHomeAdapter.notifyDataSetChanged();
-                    filmNewHomeAdapter.setListener(model ->{
+                    filmNewHomeAdapter.setListener(model -> {
                         if (model != null) {
                             if (MEDIAPLAYER != null) {
                                 MEDIAPLAYER.stop();
@@ -183,12 +193,12 @@ public class HomeFragment extends Fragment {
                                 MEDIAPLAYER.release();
                             }
                             MEDIAPLAYER = null;
-                            String customURL = Const.HOST_MUSIC+ model.getFilmEntity().getUploadsource();
+                            String customURL = Const.HOST_MUSIC + model.getFilmEntity().getUploadsource();
 
                             if (isValid(customURL)) {
                                 Intent intent = new Intent(getContext(), FilmDetailActivity.class);
                                 Bundle bundle = new Bundle();
-                                bundle.putSerializable("model",model);
+                                bundle.putSerializable("model", model);
                                 intent.putExtras(bundle);
                                 startActivity(intent);
                             } else {
@@ -207,34 +217,39 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadSongHome() {
-        apiService.getAllSong().enqueue(new Callback<List<SongEntityModel>>() {
+        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        apiService.getAllSong(token).enqueue(new Callback<List<SongEntityModel>>() {
             @Override
             public void onResponse(Call<List<SongEntityModel>> call, Response<List<SongEntityModel>> response) {
                 if (response.isSuccessful()) {
                     card_musicrank.setVisibility(View.VISIBLE);
-                    rc_musicrank.setLayoutManager(new GridLayoutManager(getContext(),3));
-                    SongHomeAdapter songHomeAdapter = new SongHomeAdapter(getContext(),response.body());
+                    rc_musicrank.setLayoutManager(new GridLayoutManager(getContext(), 3));
+                    SongHomeAdapter songHomeAdapter = new SongHomeAdapter(getContext(), response.body());
                     rc_musicrank.setAdapter(songHomeAdapter);
                     songHomeAdapter.notifyDataSetChanged();
-                    songHomeAdapter.setListener(model ->{
+                    songHomeAdapter.setListener(model -> {
                         if (model != null) {
+
                             if (MEDIAPLAYER != null) {
                                 MEDIAPLAYER.stop();
                                 MEDIAPLAYER.reset();
                                 MEDIAPLAYER.release();
                             }
                             MEDIAPLAYER = null;
-                            String customURL = Const.HOST_MUSIC+ model.getSongEntity().getUploadsource();
+
+                            String customURL = model.getSongEntity().getUploadsource();
 
                             if (isValid(customURL)) {
                                 Intent intent = new Intent(getContext(), SongDetailActivity.class);
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable("model", model.getSongEntity());
-                                intent.putExtras(bundle);
+                                intent.putExtra("model", model.getSongEntity().getId());
+//                                Bundle bundle = new Bundle();
+//                                bundle.putSerializable("model", model.getSongEntity());
+//                                intent.putExtras(bundle);
                                 startActivity(intent);
                             } else {
                                 Toast.makeText(getContext(), "Link nhạc không tồn tại", Toast.LENGTH_SHORT).show();
                             }
+
                         }
                     });
                 }
@@ -248,34 +263,39 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadSongRandom() {
-        apiService.getAllSong().enqueue(new Callback<List<SongEntityModel>>() {
+        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        apiService.getAllSong(token).enqueue(new Callback<List<SongEntityModel>>() {
             @Override
             public void onResponse(Call<List<SongEntityModel>> call, Response<List<SongEntityModel>> response) {
                 if (response.isSuccessful()) {
                     card_nghegi.setVisibility(View.VISIBLE);
-                    rc_songrandom.setLayoutManager(new GridLayoutManager(getContext(),3));
-                    SongRandomHomeAdapter songRandomHomeAdapter = new SongRandomHomeAdapter(getContext(),response.body());
+                    rc_songrandom.setLayoutManager(new GridLayoutManager(getContext(), 3));
+                    SongRandomHomeAdapter songRandomHomeAdapter = new SongRandomHomeAdapter(getContext(), response.body());
                     rc_songrandom.setAdapter(songRandomHomeAdapter);
                     songRandomHomeAdapter.notifyDataSetChanged();
-                    songRandomHomeAdapter.setListener(model ->{
+                    songRandomHomeAdapter.setListener(model -> {
                         if (model != null) {
+
                             if (MEDIAPLAYER != null) {
                                 MEDIAPLAYER.stop();
                                 MEDIAPLAYER.reset();
                                 MEDIAPLAYER.release();
                             }
                             MEDIAPLAYER = null;
-                            String customURL = Const.HOST_MUSIC+ model.getSongEntity().getUploadsource();
+
+                            String customURL = model.getSongEntity().getUploadsource();
 
                             if (isValid(customURL)) {
                                 Intent intent = new Intent(getContext(), SongDetailActivity.class);
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable("model", model.getSongEntity());
-                                intent.putExtras(bundle);
+                                intent.putExtra("model", model.getSongEntity().getId());
+//                                Bundle bundle = new Bundle();
+//                                bundle.putSerializable("model", model.getSongEntity());
+//                                intent.putExtras(bundle);
                                 startActivity(intent);
                             } else {
                                 Toast.makeText(getContext(), "Link nhạc không tồn tại", Toast.LENGTH_SHORT).show();
                             }
+
                         }
                     });
                 }
@@ -287,14 +307,12 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-    public static boolean isValid(String url)
-    {
+
+    public static boolean isValid(String url) {
         try {
             new URL(url).toURI();
             return true;
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             return false;
         }
     }

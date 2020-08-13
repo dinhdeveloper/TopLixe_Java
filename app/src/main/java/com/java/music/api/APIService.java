@@ -1,46 +1,65 @@
 package com.java.music.api;
 
+import com.google.gson.JsonObject;
+import com.java.music.model.Token;
 import com.java.music.model.actor.ActorEntityModel;
+import com.java.music.model.film.FilmEntity;
 import com.java.music.model.film.FilmEntityModel;
 import com.java.music.model.singer.SingerEntityModel;
 import com.java.music.model.song.AlbumEntityModel;
+import com.java.music.model.song.SongEntity;
 import com.java.music.model.song.SongEntityModel;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface APIService {
-    @GET("Lixe/api/MusicSite/Song/GetTop10/")
-    Call<List<SongEntityModel>> getAllSong();
 
-    @GET("Lixe/api/FilmSite/Film/GetTop10/")
-    Call<List<FilmEntityModel>> getAllFilm();
-
-    @GET("Lixe/api/FilmSite/Film/GetRandom10/")
-    Call<List<FilmEntityModel>> getFilmRandom();
-
-    @GET("Lixe/api/FilmSite/Film/GetAllHasPage{itemOnPage}/{page}")
-    Call<List<FilmEntityModel>> getHasPageFilm(@Path("itemOnPage") int itemOnPage,@Path("page") int page);
-
-    @GET("Lixe/api/FilmSite/Actor/GetAllHasPage{itemOnPage}/{page}")
-    Call<List<ActorEntityModel>> getActor(@Path("itemOnPage") int itemOnPage, @Path("page") int page);
-
-    @GET("/Lixe/api/MusicSite/Singer/GetAllHasPage{itemOnPage}/{page}")
-    Call<List<SingerEntityModel>> getSingerPage(@Path("itemOnPage") int itemOnPage, @Path("page") int page);
-
-    @GET("Lixe/api/MusicSite/Song/GetAllHasPage{itemOnPage}/{page}")
-    Call<List<SongEntityModel>> getSongPage(@Path("itemOnPage") int itemOnPage, @Path("page") int page);
+    @POST("Lixe/api/MusicSite/Song/GetTop10/")
+    Call<List<SongEntityModel>> getAllSong(@Body Token apiToken);
 
 
-    @GET("Lixe/api/MusicSite/Album/GetTop10")
-    Call<List<AlbumEntityModel>> getAllAlbum();
+    @POST("Lixe/api/FilmSite/Film/GetTop10/")
+    Call<List<FilmEntityModel>> getAllFilm(@Body Token apiToken);
 
-    @GET("Lixe/api/MusicSite/Song/GetDetail/{id}")
-    Call<SongEntityModel> getSongDetail(@Path("id") int id);
+    @POST("Lixe/api/FilmSite/Film/GetRandom10/")
+    Call<List<FilmEntityModel>> getFilmRandom(@Body Token apiToken);
+
+    @POST("Lixe/api/FilmSite/Film/GetAllHasPage{itemOnPage}/{page}")
+    Call<List<FilmEntityModel>> getHasPageFilm(@Body Token apiToken,@Path("itemOnPage") int itemOnPage,@Path("page") int page);
+
+    @POST("Lixe/api/FilmSite/Actor/GetAllHasPage{itemOnPage}/{page}")
+    Call<List<ActorEntityModel>> getActor(@Body Token apiToken,@Path("itemOnPage") int itemOnPage, @Path("page") int page);
+
+    @POST("/Lixe/api/MusicSite/Singer/GetAllHasPage{itemOnPage}/{page}")
+    Call<List<SingerEntityModel>> getSingerPage(@Body Token apiToken,@Path("itemOnPage") int itemOnPage, @Path("page")int page);
+
+    @POST("Lixe/api/MusicSite/Song/GetAllHasPage{itemOnPage}/{page}")
+    Call<List<SongEntityModel>> getSongPage(@Body Token apiToken,@Path("itemOnPage") int itemOnPage, @Path("page") int page);
+
+
+    @POST("Lixe/api/MusicSite/Album/GetTop10")
+    Call<List<AlbumEntityModel>> getAllAlbum(@Body Token apiToken);
+
+    @POST("Lixe/api/MusicSite/Song/GetDetail/{id}")
+    Call<SongEntityModel> getSongDetail(@Body Token apiToken,@Path("id") int id);
+
+    @POST("Lixe/api/Search/q/{key}/song")
+    Call<List<SongEntityModel>> getSearchSong(@Body Token apiToken,@Path("key") String key);
+
+    @POST("Lixe/api/Search/q/{key}/film")
+    Call<List<FilmEntityModel>> getSearchFilm(@Body Token apiToken, @Path("key") String key);
 
 
 }

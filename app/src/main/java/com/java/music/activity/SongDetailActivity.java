@@ -4,14 +4,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,28 +28,30 @@ import com.bumptech.glide.Glide;
 import com.java.music.R;
 import com.java.music.api.APIService;
 import com.java.music.api.APIUntil;
-import com.java.music.common.Const;
-import com.java.music.model.film.FilmEntityModel;
-import com.java.music.model.song.AlbumEntityModel;
+import com.java.music.model.Token;
 import com.java.music.model.song.SongEntity;
 import com.java.music.model.song.SongEntityModel;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Random;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.java.music.activity.MainActivity.MEDIAPLAYER;
+import static com.java.music.fragment.song.SongFragment.isValid;
 
 public class SongDetailActivity extends AppCompatActivity {
 
     APIService apiService;
 
     CircleImageView imgDiaNhac;
+    ProgressBar progress;
     SeekBar seekBarSong;
     TextView txtTimeSong, txtTimeTotalSong;
     ImageButton imgShuffle, imgPrevious, imgPlay, imgNext, imgReplay;
@@ -49,10 +59,22 @@ public class SongDetailActivity extends AppCompatActivity {
     SongEntity entityModel;
     int id_song;
 
+    Token token = new Token();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song_detail);
+
+        if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
+            View v = this.getWindow().getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else if (Build.VERSION.SDK_INT >= 19) {
+            //for new api versions.
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
 
         apiService = APIUntil.getServer();
 
@@ -69,6 +91,30 @@ public class SongDetailActivity extends AppCompatActivity {
         //xao tron bai hat
         imgShuffle.setOnClickListener(v -> {
 
+            LayoutInflater layoutInflater = getLayoutInflater();
+            View popupView = layoutInflater.inflate(R.layout.loading, null);
+            AlertDialog.Builder alert = new AlertDialog.Builder(SongDetailActivity.this);
+            alert.setView(popupView);
+            AlertDialog dialog = alert.create();
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (MEDIAPLAYER != null) {
+                        MEDIAPLAYER.stop();
+                        MEDIAPLAYER.reset();
+                        MEDIAPLAYER.release();
+                        MEDIAPLAYER = null;
+                    }
+                    MEDIAPLAYER = null;
+                    Random rd = new Random();
+                    id_song = rd.nextInt(50);
+                    getDataShuffle(id_song);
+                    dialog.dismiss();
+                }
+            }, 1000);
         });
 
         //lap lai bai hat
@@ -77,6 +123,11 @@ public class SongDetailActivity extends AppCompatActivity {
         });
         //lui lai 1 bai
         imgPrevious.setOnClickListener(v -> {
+//            SweetAlertDialog pDialog = new SweetAlertDialog(SongDetailActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+//            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+//            pDialog.setTitleText("Loading ...");
+//            pDialog.setCancelable(false);
+//            pDialog.show();
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -89,13 +140,28 @@ public class SongDetailActivity extends AppCompatActivity {
                     }
                     MEDIAPLAYER = null;
                     id_song = id_song - 1;
-                    getData(id_song);
+                    getDataPrevious(id_song);
+
+                    //pDialog.dismissWithAnimation();
                 }
-            },100);
+            }, 1000);
         });
 
         //next
         imgNext.setOnClickListener(v -> {
+//            SweetAlertDialog pDialog = new SweetAlertDialog(SongDetailActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+//            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+//            pDialog.setTitleText("Loading ...");
+//            pDialog.setCancelable(false);
+//            pDialog.show();
+
+//            LayoutInflater layoutInflater = getLayoutInflater();
+//            View popupView = layoutInflater.inflate(R.layout.loading, null);
+//            AlertDialog.Builder alert = new AlertDialog.Builder(SongDetailActivity.this);
+//            alert.setView(popupView);
+//            AlertDialog dialog = alert.create();
+//            //dialog.setCanceledOnTouchOutside(false);
+//            dialog.show();
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -108,20 +174,38 @@ public class SongDetailActivity extends AppCompatActivity {
                     }
                     MEDIAPLAYER = null;
                     id_song = id_song + 1;
-                    getData(id_song);
+                    getDataNext(id_song);
+                    //dialog.dismiss();
+                   // pDialog.dismissWithAnimation();
                 }
-            },100);
+            }, 1000);
         });
     }
 
-    private void getData(int id) {
-
-        apiService.getSongDetail(id).enqueue(new Callback<SongEntityModel>() {
+    private void getDataNext(int id) {
+        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        apiService.getSongDetail(token,id).enqueue(new Callback<SongEntityModel>() {
             @Override
             public void onResponse(Call<SongEntityModel> call, Response<SongEntityModel> response) {
-                Log.e("AAAAA",response.body().getSongEntity().getId()+"  "+response.body().getSongEntity().getUploadsource());
-                entityModel = response.body().getSongEntity();
-                playNhac(entityModel);
+
+                if (response.body() != null) {
+                    entityModel = response.body().getSongEntity();
+                    if (isValid(entityModel.getUploadsource())) {
+                       // Toast.makeText(SongDetailActivity.this, ""+id_song, Toast.LENGTH_SHORT).show();
+                        playNhac(entityModel);
+                    } else {
+                        Toast.makeText(SongDetailActivity.this, "Không tìm thấy link bài hát", Toast.LENGTH_SHORT).show();
+                        id_song += 1;
+                        if (MEDIAPLAYER!=null){
+                            MEDIAPLAYER.stop();
+                            imgPlay.setImageResource(R.drawable.ic_play);
+                        }
+                        getDataNext(id_song);
+                    }
+                } else {
+                    id_song += 1;
+                    getDataNext(id_song);
+                }
             }
 
             @Override
@@ -132,6 +216,91 @@ public class SongDetailActivity extends AppCompatActivity {
 
 
     }
+
+    private void getDataPrevious(int id) {
+        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        apiService.getSongDetail(token,id).enqueue(new Callback<SongEntityModel>() {
+            @Override
+            public void onResponse(Call<SongEntityModel> call, Response<SongEntityModel> response) {
+
+                if (response.body() != null) {
+                    entityModel = response.body().getSongEntity();
+                    if (isValid(entityModel.getUploadsource())) {
+                        //Toast.makeText(SongDetailActivity.this, ""+id_song, Toast.LENGTH_SHORT).show();
+                        playNhac(entityModel);
+                    } else {
+                        Toast.makeText(SongDetailActivity.this, "Không tìm thấy link bài hát", Toast.LENGTH_SHORT).show();
+                        id_song -= 1;
+                        if (MEDIAPLAYER!=null){
+                            MEDIAPLAYER.stop();
+                            imgPlay.setImageResource(R.drawable.ic_play);
+                        }
+                        getDataPrevious(id_song);
+                    }
+                } else {
+                    id_song -= 1;
+                    getDataPrevious(id_song);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SongEntityModel> call, Throwable t) {
+                Log.e("eeee", t.getMessage());
+            }
+        });
+
+
+    }
+
+    private void getData(int id) {
+        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        apiService.getSongDetail(token,id).enqueue(new Callback<SongEntityModel>() {
+            @Override
+            public void onResponse(Call<SongEntityModel> call, Response<SongEntityModel> response) {
+                if (response.body() != null) {
+                    //Toast.makeText(SongDetailActivity.this, ""+id_song, Toast.LENGTH_SHORT).show();
+                    playNhac(response.body().getSongEntity());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SongEntityModel> call, Throwable t) {
+                Log.e("eeee", t.getMessage());
+            }
+        });
+
+    }
+
+    private void getDataShuffle(int id) {
+        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        apiService.getSongDetail(token,id).enqueue(new Callback<SongEntityModel>() {
+            @Override
+            public void onResponse(Call<SongEntityModel> call, Response<SongEntityModel> response) {
+
+                if (response.body() != null) {
+                    entityModel = response.body().getSongEntity();
+                    if (isValid(entityModel.getUploadsource())) {
+                        playNhac(entityModel);
+                    } else {
+                        Toast.makeText(SongDetailActivity.this, "Không tìm thấy link bài hát", Toast.LENGTH_SHORT).show();
+                        id_song += 1;
+                        getData(id_song);
+                    }
+                } else {
+                    id_song += 1;
+                    getData(id_song);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SongEntityModel> call, Throwable t) {
+                Log.e("eeee", t.getMessage());
+            }
+        });
+
+
+    }
+
 
     private void playNhac(SongEntity entityModel) {
         ObjectAnimator animator = ObjectAnimator.ofFloat(imgDiaNhac, "rotation", 0f, 360f);
@@ -146,22 +315,22 @@ public class SongDetailActivity extends AppCompatActivity {
         MEDIAPLAYER = new MediaPlayer();
         MEDIAPLAYER.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try {
-            MEDIAPLAYER.setDataSource(Const.HOST_MUSIC + entityModel.getUploadsource());
+            MEDIAPLAYER.setDataSource(entityModel.getUploadsource());
             MEDIAPLAYER.prepare();
             MEDIAPLAYER.start();
-            MEDIAPLAYER.seekTo(1);
+            MEDIAPLAYER.seekTo(0);
             imgPlay.setImageResource(R.drawable.ic_pause);
         } catch (IllegalArgumentException e) {
 
-            Toast.makeText(getApplicationContext(), "Link nhạc không tồn tại", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "Link nhạc không tồn tại", Toast.LENGTH_LONG).show();
 
         } catch (SecurityException e) {
 
-            Toast.makeText(getApplicationContext(), "Link nhạc không tồn tại", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "Link nhạc không tồn tại", Toast.LENGTH_LONG).show();
 
         } catch (IllegalStateException e) {
 
-            Toast.makeText(getApplicationContext(), "Link nhạc không tồn tại", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "Link nhạc không tồn tại", Toast.LENGTH_LONG).show();
 
         } catch (IOException e) {
 
@@ -174,7 +343,7 @@ public class SongDetailActivity extends AppCompatActivity {
         seekBarSong.setMax(MEDIAPLAYER.getDuration());
 
         imgPlay.setOnClickListener(v -> {
-            if (MEDIAPLAYER!=null){
+            if (MEDIAPLAYER != null) {
                 if (MEDIAPLAYER.isPlaying()) {
                     MEDIAPLAYER.pause();
                     imgPlay.setImageResource(R.drawable.ic_play);
@@ -200,7 +369,10 @@ public class SongDetailActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                MEDIAPLAYER.seekTo(seekBar.getProgress());
+                if (MEDIAPLAYER!=null){
+                    MEDIAPLAYER.seekTo(seekBar.getProgress());
+                }else {
+                }
             }
         });
 
@@ -216,6 +388,7 @@ public class SongDetailActivity extends AppCompatActivity {
         imgNext = findViewById(R.id.imgNext);
         imgPrevious = findViewById(R.id.imgPrevious);
         imgReplay = findViewById(R.id.imgReplay);
+        progress = findViewById(R.id.progress);
     }
 
     private void updateTime() {

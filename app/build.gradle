@@ -16,9 +16,9 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true //Thu gọn size code,loại bỏ code thừa
-            useProguard true //Làm phức tạp hoá code
+            minifyEnabled false
+//            shrinkResources true //Thu gọn size code,loại bỏ code thừa
+//            useProguard true //Làm phức tạp hoá code
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -103,5 +103,7 @@ dependencies {
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     //material
     implementation "com.google.android.material:material:1.2.0-alpha02"
+
+    implementation 'com.github.f0ris.sweetalert:library:1.5.6'
 
 }
