@@ -66,7 +66,7 @@ public class ActorActivity extends AppCompatActivity {
                         MEDIAPLAYER.release();
                     }
                     MEDIAPLAYER = null;
-                    String customURL = Const.HOST_MUSIC+ model.getFilmEntity().getUploadsource();
+                    String customURL = model.getFilmEntity().getUploadsource();
 
                     if (isValid(customURL)) {
                         Intent intents = new Intent(getApplicationContext(), FilmDetailActivity.class);

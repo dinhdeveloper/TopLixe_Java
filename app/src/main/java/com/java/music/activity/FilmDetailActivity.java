@@ -19,8 +19,6 @@ import com.java.music.R;
 import com.java.music.adapter.film.FilmHasPageAdapter;
 import com.java.music.api.APIService;
 import com.java.music.api.APIUntil;
-import com.java.music.common.Const;
-import com.java.music.fragment.film.FilmDetailFragment;
 import com.java.music.model.Token;
 import com.java.music.model.film.FilmEntityModel;
 
@@ -31,8 +29,6 @@ import cn.jzvd.JZVideoPlayerStandard;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.java.music.common.Const.HOST_MUSIC;
 import static com.java.music.fragment.home.HomeFragment.isValid;
 
 public class FilmDetailActivity extends AppCompatActivity {
@@ -97,7 +93,7 @@ public class FilmDetailActivity extends AppCompatActivity {
                     songRandomHomeAdapter.setListener(model -> {
                         if (model != null) {
 
-                            String customURL = Const.HOST_MUSIC+ model.getFilmEntity().getUploadsource();
+                            String customURL = model.getFilmEntity().getUploadsource();
 
                             if (isValid(customURL)) {
                                 Intent intent = new Intent(getApplicationContext(), FilmDetailActivity.class);
@@ -126,7 +122,7 @@ public class FilmDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         FilmEntityModel entityModel = (FilmEntityModel)intent.getExtras().get("model");
         if (entityModel != null) {
-            String url = HOST_MUSIC + entityModel.getFilmEntity().getUploadsource();
+            String url = entityModel.getFilmEntity().getUploadsource();
             videoplayer.setUp(url , JZVideoPlayerStandard.SCREEN_STATE_OFF, entityModel.getFilmEntity().getFilmname());
 
             txtNameFilm.setText(entityModel.getFilmEntity().getFilmname());

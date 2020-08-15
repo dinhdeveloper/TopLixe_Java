@@ -38,7 +38,6 @@ import com.java.music.adapter.song.SongSearchAdapter;
 import com.java.music.adapter.song.SongSuggressHomeAdapter;
 import com.java.music.api.APIService;
 import com.java.music.api.APIUntil;
-import com.java.music.common.Const;
 import com.java.music.model.Token;
 import com.java.music.model.singer.SingerEntityModel;
 import com.java.music.model.song.AlbumEntityModel;
@@ -108,7 +107,7 @@ public class SongFragment extends Fragment {
             imvCloseSearch.setOnClickListener(v1 -> {
                 layoutSearch.setVisibility(View.GONE);
                 img_search.setVisibility(View.VISIBLE);
-
+                edtSearchSong.setText(null);
                 listResultSearch.setVisibility(View.GONE);
                 layoutSong.setVisibility(View.VISIBLE);
             });

@@ -6,8 +6,6 @@ import android.os.Bundle;
 import androidx.cardview.widget.CardView;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,16 +24,12 @@ import android.widget.Toast;
 
 import com.java.music.R;
 import com.java.music.activity.FilmDetailActivity;
-import com.java.music.activity.SongDetailActivity;
-import com.java.music.adapter.actor.FilmActorAdapter;
 import com.java.music.adapter.film.FilmHasPageAdapter;
 import com.java.music.adapter.film.FilmSearchAdapter;
 import com.java.music.adapter.film.FilmSuggrestionHomeAdapter;
 import com.java.music.adapter.song.SongSearchAdapter;
 import com.java.music.api.APIService;
 import com.java.music.api.APIUntil;
-import com.java.music.common.Const;
-import com.java.music.fragment.film.FilmDetailFragment;
 import com.java.music.model.Token;
 import com.java.music.model.actor.ActorEntity;
 import com.java.music.model.actor.ActorEntityModel;
@@ -108,7 +102,7 @@ public class FilmFragment extends Fragment {
             imvCloseSearch.setOnClickListener(v1 -> {
                 layoutSearch.setVisibility(View.GONE);
                 img_search.setVisibility(View.VISIBLE);
-
+                edtSearch.setText(null);
                 listResultSearch.setVisibility(View.GONE);
                 layoutFilm.setVisibility(View.VISIBLE);
             });
@@ -138,7 +132,7 @@ public class FilmFragment extends Fragment {
                                         MEDIAPLAYER.release();
                                     }
                                     MEDIAPLAYER = null;
-                                    String customURL = Const.HOST_MUSIC + entity.getFilmEntity().getUploadsource();
+                                    String customURL = entity.getFilmEntity().getUploadsource();
 
                                     if (isValid(customURL)) {
                                         Intent intent = new Intent(getContext(), FilmDetailActivity.class);
@@ -184,7 +178,7 @@ public class FilmFragment extends Fragment {
                                 MEDIAPLAYER.release();
                             }
                             MEDIAPLAYER = null;
-                            String customURL = Const.HOST_MUSIC + model.getFilmEntity().getUploadsource();
+                            String customURL = model.getFilmEntity().getUploadsource();
 
                             if (isValid(customURL)) {
                                 Intent intent = new Intent(getContext(), FilmDetailActivity.class);
@@ -255,7 +249,7 @@ public class FilmFragment extends Fragment {
                                 MEDIAPLAYER.release();
                             }
                             MEDIAPLAYER = null;
-                            String customURL = Const.HOST_MUSIC + model.getFilmEntity().getUploadsource();
+                            String customURL =model.getFilmEntity().getUploadsource();
 
                             if (isValid(customURL)) {
                                 Intent intent = new Intent(getContext(), FilmDetailActivity.class);
@@ -297,7 +291,7 @@ public class FilmFragment extends Fragment {
                                 MEDIAPLAYER.release();
                             }
                             MEDIAPLAYER = null;
-                            String customURL = Const.HOST_MUSIC + model.getFilmEntity().getUploadsource();
+                            String customURL = model.getFilmEntity().getUploadsource();
 
                             if (isValid(customURL)) {
                                 Intent intent = new Intent(getContext(), FilmDetailActivity.class);

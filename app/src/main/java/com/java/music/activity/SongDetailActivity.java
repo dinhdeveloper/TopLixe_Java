@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
@@ -53,6 +54,7 @@ public class SongDetailActivity extends AppCompatActivity {
     CircleImageView imgDiaNhac;
     ProgressBar progress;
     SeekBar seekBarSong;
+    ImageView imvBack;
     TextView txtTimeSong, txtTimeTotalSong;
     ImageButton imgShuffle, imgPrevious, imgPlay, imgNext, imgReplay;
 
@@ -88,6 +90,10 @@ public class SongDetailActivity extends AppCompatActivity {
     }
 
     private void onClick() {
+        //back
+        imvBack.setOnClickListener(v -> {
+            onBackPressed();
+        });
         //xao tron bai hat
         imgShuffle.setOnClickListener(v -> {
 
@@ -389,6 +395,7 @@ public class SongDetailActivity extends AppCompatActivity {
         imgPrevious = findViewById(R.id.imgPrevious);
         imgReplay = findViewById(R.id.imgReplay);
         progress = findViewById(R.id.progress);
+        imvBack = findViewById(R.id.imvBack);
     }
 
     private void updateTime() {

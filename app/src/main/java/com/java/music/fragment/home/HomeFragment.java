@@ -26,8 +26,6 @@ import com.java.music.adapter.song.SongRandomHomeAdapter;
 import com.java.music.adapter.song.SongSuggressHomeAdapter;
 import com.java.music.api.APIService;
 import com.java.music.api.APIUntil;
-import com.java.music.common.Const;
-import com.java.music.fragment.film.FilmDetailFragment;
 import com.java.music.model.Token;
 import com.java.music.model.film.FilmEntityModel;
 import com.java.music.model.song.SongEntityModel;
@@ -151,7 +149,7 @@ public class HomeFragment extends Fragment {
                             MEDIAPLAYER = null;
 
 
-                            String customURL = Const.HOST_MUSIC + model.getFilmEntity().getUploadsource();
+                            String customURL = model.getFilmEntity().getUploadsource();
 
                             if (isValid(customURL)) {
                                 Intent intent = new Intent(getContext(), FilmDetailActivity.class);
@@ -193,7 +191,7 @@ public class HomeFragment extends Fragment {
                                 MEDIAPLAYER.release();
                             }
                             MEDIAPLAYER = null;
-                            String customURL = Const.HOST_MUSIC + model.getFilmEntity().getUploadsource();
+                            String customURL = model.getFilmEntity().getUploadsource();
 
                             if (isValid(customURL)) {
                                 Intent intent = new Intent(getContext(), FilmDetailActivity.class);

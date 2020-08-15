@@ -32,8 +32,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.java.music.common.Const.HOST_MUSIC;
-
 public class FilmDetailFragment extends Fragment {
 
     APIService apiService;
@@ -109,7 +107,7 @@ public class FilmDetailFragment extends Fragment {
 
     private void addEvent() {
         if (entityModel != null) {
-            String url = HOST_MUSIC + entityModel.getFilmEntity().getUploadsource();
+            String url = entityModel.getFilmEntity().getUploadsource();
             videoplayer.setUp(url , JZVideoPlayerStandard.SCREEN_STATE_OFF, entityModel.getFilmEntity().getFilmname());
 
             txtNameFilm.setText(entityModel.getFilmEntity().getFilmname());
