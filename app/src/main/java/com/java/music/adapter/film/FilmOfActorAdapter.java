@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -48,15 +49,17 @@ public class FilmOfActorAdapter extends RecyclerView.Adapter<FilmOfActorAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         FilmEntityModel entityModel = list.get(position);
-        if (entityModel!=null){
-            holder.nameFilm.setText(entityModel.getFilmEntity().getFilmname());
+        if (entityModel!=null || entityModel.getFilmEntity() !=null){
+            holder.txtNameFilm.setText(entityModel.getFilmEntity().getFilmname());
             String startTime = "00:00:00";
             int minutes = entityModel.getFilmEntity().getLength();
             int h = minutes / 60 + Integer.parseInt(startTime.substring(0,1));
             int m = minutes % 60 + Integer.parseInt(startTime.substring(3,4));
             String newtime = h+":"+m+":00";
             holder.countryName.setText(newtime);
-            Glide.with(context).load(entityModel.getFilmEntity().getImg()).into(holder.imageFilm);
+            if (entityModel.getFilmEntity().getImg()!=null){
+                Glide.with(context).load(entityModel.getFilmEntity().getImg()).error(R.drawable.imageloading).into(holder.imgItemFilm);
+            }
         }
     }
 
@@ -66,19 +69,19 @@ public class FilmOfActorAdapter extends RecyclerView.Adapter<FilmOfActorAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageFilm;
-        LinearLayout layoutClick;
-        TextView nameFilm,countryName;
+        ImageView imgItemFilm;
+        RelativeLayout layoutLine;
+        TextView txtNameFilm,countryName;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            layoutClick = itemView.findViewById(R.id.layoutClick);
-            imageFilm = itemView.findViewById(R.id.imageFilm);
-            nameFilm = itemView.findViewById(R.id.nameFilm);
-            countryName = itemView.findViewById(R.id.countryName);
+            layoutLine = itemView.findViewById(R.id.layoutLine);
+            imgItemFilm = itemView.findViewById(R.id.imgItemFilm);
+            txtNameFilm = itemView.findViewById(R.id.txtNameFilm);
+            countryName = itemView.findViewById(R.id.time);
 
-            layoutClick.setOnClickListener(v -> {
+            layoutLine.setOnClickListener(v -> {
                 if (listener!=null){
                     listener.onClickItem(list.get(getAdapterPosition()));
                 }

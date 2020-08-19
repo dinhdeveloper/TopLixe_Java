@@ -2,6 +2,7 @@ package com.java.music.api;
 
 import com.google.gson.JsonObject;
 import com.java.music.model.Token;
+import com.java.music.model.UserEntityModel;
 import com.java.music.model.actor.ActorEntityModel;
 import com.java.music.model.film.FilmEntity;
 import com.java.music.model.film.FilmEntityModel;
@@ -60,6 +61,9 @@ public interface APIService {
 
     @POST("Lixe/api/Search/q/{key}/film")
     Call<List<FilmEntityModel>> getSearchFilm(@Body Token apiToken, @Path("key") String key);
+
+    @POST("Lixe/api/Account/Login")
+    Call<List<UserEntityModel>> login(@Body Token apiToken);
 
 
 }

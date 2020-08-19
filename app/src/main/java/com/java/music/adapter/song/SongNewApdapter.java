@@ -54,7 +54,7 @@ public class SongNewApdapter extends RecyclerView.Adapter<SongNewApdapter.ViewHo
             if (entityModel != null) {
                 holder.nameSong.setText(entityModel.getSongEntity().getSongname());
                 holder.singerName.setText(entityModel.getSingerEntityList().get(0).getSingername());
-                Glide.with(context).load(entityModel.getSongEntity().getImg()).into(holder.imageSong);
+                Glide.with(context).load(entityModel.getSongEntity().getImg()).error(R.drawable.imageloading).into(holder.imageSong);
             }
         } catch (Exception e) {
             Log.e("Exx", e.getMessage());

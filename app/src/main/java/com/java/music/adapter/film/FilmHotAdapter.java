@@ -50,7 +50,7 @@ public class FilmHotAdapter extends RecyclerView.Adapter<FilmHotAdapter.ViewHold
         FilmEntityModel entityModel = list.get(position);
         if (entityModel != null) {
             holder.txtNameFilm.setText(entityModel.getFilmEntity().getFilmname());
-            Glide.with(context).load(entityModel.getFilmEntity().getImg()).into(holder.imgItemFilm);
+            Glide.with(context).load(entityModel.getFilmEntity().getImg()).error(R.drawable.imageloading).into(holder.imgItemFilm);
             String startTime = "00:00:00";
             int minutes = entityModel.getFilmEntity().getLength();
             int h = minutes / 60 + Integer.parseInt(startTime.substring(0,1));

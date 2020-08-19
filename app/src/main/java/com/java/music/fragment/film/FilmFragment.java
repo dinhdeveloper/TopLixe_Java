@@ -23,7 +23,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.java.music.R;
+import com.java.music.activity.ActorActivity;
 import com.java.music.activity.FilmDetailActivity;
+import com.java.music.adapter.actor.FilmActorAdapter;
 import com.java.music.adapter.film.FilmHasPageAdapter;
 import com.java.music.adapter.film.FilmSearchAdapter;
 import com.java.music.adapter.film.FilmSuggrestionHomeAdapter;
@@ -207,19 +209,22 @@ public class FilmFragment extends Fragment {
             @Override
             public void onResponse(Call<List<ActorEntityModel>> call, Response<List<ActorEntityModel>> response) {
                 if (response.isSuccessful()) {
-                    Log.e("AAAAA",response.body().size()+"");
-//                    card_actor.setVisibility(View.VISIBLE);
-//                    rc_actor.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-//                    FilmActorAdapter songRandomHomeAdapter = new FilmActorAdapter(getContext(), response.body());
-//                    rc_actor.setAdapter(songRandomHomeAdapter);
-//                    songRandomHomeAdapter.notifyDataSetChanged();
-//                    songRandomHomeAdapter.setListener(model -> {
-//                        Intent intent = new Intent(getContext(), ActorEntity.class);
-//                        Bundle bundle = new Bundle();
-//                        bundle.putSerializable("model", model);
-//                        intent.putExtras(bundle);
-//                        startActivity(intent);
-//                    });
+                    card_actor.setVisibility(View.VISIBLE);
+                    rc_actor.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                    FilmActorAdapter songRandomHomeAdapter = new FilmActorAdapter(getContext(), response.body());
+                    rc_actor.setAdapter(songRandomHomeAdapter);
+                    songRandomHomeAdapter.notifyDataSetChanged();
+                    songRandomHomeAdapter.setListener(model -> {
+                        if (!model.getFilmDTOList().isEmpty()){
+                            Intent intent = new Intent(getContext(), ActorActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable("model", model);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        }else {
+                            Toast.makeText(getContext(), "Không có phim cho diễn viên này.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
 

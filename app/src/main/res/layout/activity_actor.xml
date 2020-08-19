@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/hinhnen"
-    tools:context=".fragment.actor.ActorActivity">
+    android:background="@color/hinhnen">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -23,6 +22,7 @@
 
                 <ImageView
                     android:id="@+id/imageActor"
+                    android:src="@drawable/imageloading"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:scaleType="fitXY"
@@ -38,7 +38,7 @@
                     android:textColor="@color/whileColor"
                     android:textSize="20dp"
                     android:textStyle="bold"
-                    android:text="asdasfsfaf"
+                    tools:text="asdasfsfaf"
                     tools:visibility="visible"/>
 
 

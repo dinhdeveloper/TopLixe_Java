@@ -51,9 +51,11 @@ public class FilmActorAdapter extends RecyclerView.Adapter<FilmActorAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ActorEntityModel entityModel = list.get(position);
         if (entityModel != null) {
-            holder.txtAd.setText(entityModel.getFilmDTOList().get(0).getFilmEntity().getFilmname());
-            //holder.txt.setText(entityModel.getFilmEntity().getFilmname());
-            Glide.with(context).load(entityModel.getFilmDTOList().get(0).getFilmEntity().getImg()).into(holder.imgItem);
+            if (!entityModel.getFilmDTOList().isEmpty()){
+                holder.txtAd.setText(entityModel.getFilmDTOList().get(0).getFilmEntity().getFilmname());
+                //holder.txt.setText(entityModel.getFilmEntity().getFilmname());
+                Glide.with(context).load(entityModel.getFilmDTOList().get(0).getFilmEntity().getImg()).error(R.drawable.imageloading).into(holder.imgItem);
+            }
         }
     }
 

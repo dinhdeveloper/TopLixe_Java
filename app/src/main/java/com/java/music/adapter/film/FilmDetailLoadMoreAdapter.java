@@ -52,7 +52,7 @@ public class FilmDetailLoadMoreAdapter extends RecyclerView.Adapter<FilmDetailLo
             if (entityModel!=null){
                 holder.filmNames.setText(entityModel.getFilmEntity().getFilmname());
                 holder.country.setText(entityModel.getFilmEntity().getCountry());
-                Glide.with(context).load(entityModel.getFilmEntity().getImg()).into(holder.imageFilm);
+                Glide.with(context).load(entityModel.getFilmEntity().getImg()).error(R.drawable.imageloading).into(holder.imageFilm);
                 String startTime = "00:00:00";
                 int minutes = entityModel.getFilmEntity().getLength();
                 int h = minutes / 60 + Integer.parseInt(startTime.substring(0,1));

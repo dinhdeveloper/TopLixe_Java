@@ -56,7 +56,7 @@ public class LoadSongOfSingerAdapter extends RecyclerView.Adapter<LoadSongOfSing
         try {
             if (entityModel != null) {
                 holder.txtAd.setText(entityModel.getSongEntity().getSongname());
-                Glide.with(context).load(entityModel.getSongEntity().getImg()).into(holder.imgItem);
+                Glide.with(context).load(entityModel.getSongEntity().getImg()).error(R.drawable.imageloading).into(holder.imgItem);
             }
         } catch (Exception e) {
             Log.e("Exx", e.getMessage());

@@ -52,7 +52,7 @@ public class SongSearchAdapter extends RecyclerView.Adapter<SongSearchAdapter.Vi
         SongEntityModel songEntity = list.get(position);
         try{
             if (songEntity!=null){
-                Glide.with(context).load(songEntity.getSongEntity().getImg()).error(R.drawable.bontram).into(holder.image_song);
+                Glide.with(context).load(songEntity.getSongEntity().getImg()).error(R.drawable.imageloading).into(holder.image_song);
                 holder.song_name.setText(songEntity.getSongEntity().getSongname());
                 holder.singer_name.setText(songEntity.getSingerEntityList().get(0).getSingername());
             }

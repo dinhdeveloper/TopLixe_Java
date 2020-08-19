@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginRight="10dp"
     android:orientation="vertical"
     android:id="@+id/layoutClick"
@@ -15,10 +16,11 @@
 
         <ImageView
             android:id="@+id/imgItemFilm"
+            tools:src="@color/hinhnen"
             android:src="@color/whileColor"
-            android:layout_width="115dp"
-            android:layout_height="155dp"
-            android:scaleType="center" />
+            android:layout_width="220px"
+            android:layout_height="260px"
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/time"
@@ -28,7 +30,14 @@
             android:layout_alignRight="@+id/imgItemFilm"
             android:layout_alignBottom="@+id/imgItemFilm"
             android:layout_margin="5dp"
+            android:paddingEnd="3dp"
             android:textColor="@color/whileColor" />
+        <ImageView
+            android:layout_margin="10dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_multimedia"
+            android:layout_width="24dp"
+            android:layout_height="24dp"/>
     </RelativeLayout>
 
 

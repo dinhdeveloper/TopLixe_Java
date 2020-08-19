@@ -10,9 +10,11 @@ public class AlbumEntityModel implements Serializable {
     @SerializedName("albumEntity")
     @Expose
     private AlbumEntity albumEntity;
-    @SerializedName("songEntity")
+
+    @SerializedName("songDTOList")
     @Expose
     private List<SongEntity> songDTOList = null;
+
     @SerializedName("singerEntity")
     @Expose
     private List<Object> singerEntity = null;

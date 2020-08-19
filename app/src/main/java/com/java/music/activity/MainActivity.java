@@ -4,7 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,11 +31,38 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FullScreencall();
+        //FullScreencall();
+        isOnline();
 
         BottomNavigationView navBottom = findViewById(R.id.navBottom);
         navBottom.setOnNavigationItemSelectedListener(this);
         defauFragment(new HomeFragment());
+    }
+
+        private void isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        if (ni != null && ni.isConnected()) {
+            Thread timer = new Thread() {
+                public void run() {
+                    try {
+                        sleep(4000);
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+//                    } finally {
+//                        Intent i = new Intent(SplashActivity.this, MainActivity.class);
+//                        finish();
+//                        startActivity(i);
+//                    }
+                }
+            };
+            timer.start();
+        } else {
+            Toast.makeText(this, "Bạn chưa kết nối mạng", Toast.LENGTH_SHORT).show();
+            return;
+        }
     }
 
     public void FullScreencall() {

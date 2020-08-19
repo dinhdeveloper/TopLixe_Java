@@ -52,7 +52,7 @@ public class FilmHasPageAdapter extends RecyclerView.Adapter<FilmHasPageAdapter.
         if (entityModel!=null){
             holder.txtName.setText(entityModel.getFilmEntity().getFilmname());
             holder.textDes.setText(entityModel.getFilmEntity().getInfo());
-            Glide.with(context).load(entityModel.getFilmEntity().getImg()).into(holder.imageFilm);
+            Glide.with(context).load(entityModel.getFilmEntity().getImg()).error(R.drawable.imageloading).into(holder.imageFilm);
             String startTime = "00:00:00";
             int minutes = entityModel.getFilmEntity().getLength();
             int h = minutes / 60 + Integer.parseInt(startTime.substring(0,1));

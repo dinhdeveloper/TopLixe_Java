@@ -50,7 +50,7 @@ public class SongRandomHomeAdapter extends RecyclerView.Adapter<SongRandomHomeAd
         SongEntityModel entityModel = list.get(position);
         if (entityModel!=null){
             holder.nameSong.setText(entityModel.getSongEntity().getSongname());
-            Glide.with(context).load(entityModel.getSongEntity().getImg()).into(holder.imageSong);
+            Glide.with(context).load(entityModel.getSongEntity().getImg()).error(R.drawable.imageloading).into(holder.imageSong);
         }
     }
 

@@ -121,7 +121,7 @@ public class SongFragment extends Fragment {
                 @Override
                 public void onResponse(Call<List<SongEntityModel>> call, Response<List<SongEntityModel>> response) {
                     if (response.isSuccessful()) {
-                        if (!response.body().isEmpty()){
+                        if (!response.body().isEmpty()) {
                             listResultSearch.setVisibility(View.VISIBLE);
                             layoutSong.setVisibility(View.GONE);
                             SongSearchAdapter adapter = new SongSearchAdapter(response.body(), getContext());
@@ -151,7 +151,7 @@ public class SongFragment extends Fragment {
 
                                 }
                             });
-                        }else {
+                        } else {
                             Toast.makeText(getContext(), "Không tìm thấy bài hát", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -216,24 +216,22 @@ public class SongFragment extends Fragment {
         apiService.getAllAlbum(token).enqueue(new Callback<List<AlbumEntityModel>>() {
             @Override
             public void onResponse(Call<List<AlbumEntityModel>> call, Response<List<AlbumEntityModel>> response) {
-                if (response.isSuccessful()) {
-                    card_album.setVisibility(View.VISIBLE);
-                    rc_album.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-                    AlbumSongAdapter songRandomHomeAdapter = new AlbumSongAdapter(getContext(), response.body());
-                    rc_album.setAdapter(songRandomHomeAdapter);
-                    songRandomHomeAdapter.notifyDataSetChanged();
-                    songRandomHomeAdapter.setListener(model -> {
-                        if (model.getAlbumEntity() != null) {
-                            Intent intent = new Intent(getContext(), AlbumActivity.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("album", model);
-                            intent.putExtras(bundle);
-                            startActivity(intent);
-                        } else {
-
-                        }
-                    });
-                }
+                card_album.setVisibility(View.VISIBLE);
+                rc_album.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+                AlbumSongAdapter songRandomHomeAdapter = new AlbumSongAdapter(getContext(), response.body());
+                rc_album.setAdapter(songRandomHomeAdapter);
+                songRandomHomeAdapter.notifyDataSetChanged();
+                songRandomHomeAdapter.setListener(model -> {
+                    if (model.getSongEntity() != null) {
+                        Intent intent = new Intent(getContext(), AlbumActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("album", model);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getContext(), "Album không có bài hát.", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override

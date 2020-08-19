@@ -13,13 +13,13 @@
 
         <ImageView
             android:id="@+id/imageFilm"
+            android:scaleType="centerCrop"
             android:layout_width="220px"
-            android:layout_height="220px"/>
+            android:layout_height="260px"/>
 
         <ImageView
             android:layout_margin="10dp"
-            android:layout_alignRight="@+id/imageFilm"
-            android:layout_alignBottom="@+id/imageFilm"
+            android:layout_centerInParent="true"
             android:src="@drawable/ic_multimedia"
             android:layout_width="24dp"
             android:layout_height="24dp"/>

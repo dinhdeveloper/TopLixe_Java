@@ -55,7 +55,7 @@ public class SingerPageSongAdapter  extends RecyclerView.Adapter<SingerPageSongA
         try {
             if (entityModel != null) {
                 holder.txtName.setText(entityModel.getSingerEntity().getSingername());
-                Glide.with(context).load(entityModel.getSingerEntity().getImg()).into(holder.imgItem);
+                Glide.with(context).load(entityModel.getSingerEntity().getImg()).error(R.drawable.imageloading).into(holder.imgItem);
             }
         } catch (Exception e) {
             Log.e("Exx", e.getMessage());

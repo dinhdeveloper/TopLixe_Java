@@ -52,7 +52,7 @@ public class LoadSongOfAlbumAdapter extends RecyclerView.Adapter<LoadSongOfAlbum
         try {
             if (entityModel != null) {
                 holder.txtAd.setText(entityModel.getSongname());
-                Glide.with(context).load(entityModel.getImg()).into(holder.imgItem);
+                Glide.with(context).load(entityModel.getImg()).error(R.drawable.imageloading).into(holder.imgItem);
             }
         } catch (Exception e) {
             Log.e("Exx", e.getMessage());
@@ -61,7 +61,11 @@ public class LoadSongOfAlbumAdapter extends RecyclerView.Adapter<LoadSongOfAlbum
 
     @Override
     public int getItemCount() {
-        return list.size();
+        if (list!=null){
+            return list.size();
+        }else {
+            return 0;
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -56,7 +56,7 @@ public class FilmSuggrestionHomeAdapter  extends RecyclerView.Adapter<FilmSuggre
             int m = minutes % 60 + Integer.parseInt(startTime.substring(3,4));
             String newtime = h+":"+m+":00";
             holder.countryName.setText(newtime);
-            Glide.with(context).load(entityModel.getFilmEntity().getImg()).into(holder.imageFilm);
+            Glide.with(context).load(entityModel.getFilmEntity().getImg()).error(R.drawable.imageloading).into(holder.imageFilm);
         }
     }
 

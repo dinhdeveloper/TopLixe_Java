@@ -10,6 +10,7 @@
 
     <ImageView
         android:id="@+id/imgItem"
+        android:src="@drawable/imageloading"
         android:scaleType="fitXY"
         android:layout_width="115dp"
         android:layout_height="155dp"/>

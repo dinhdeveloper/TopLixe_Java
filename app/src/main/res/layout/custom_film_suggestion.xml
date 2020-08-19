@@ -17,8 +17,8 @@
             android:id="@+id/imgItemFilm"
             android:scaleType="centerInside"
             android:background="@drawable/custom_bg_film_in_detail"
-            android:layout_width="155dp"
-            android:layout_height="90dp"/>
+            android:layout_width="220px"
+            android:layout_height="260px"/>
 
         <TextView
             android:id="@+id/time"

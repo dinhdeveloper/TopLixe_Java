@@ -54,7 +54,7 @@ public class FilmSearchAdapter extends RecyclerView.Adapter<FilmSearchAdapter.Vi
         FilmEntityModel songEntity = list.get(position);
         try{
             if (songEntity!=null){
-                Glide.with(context).load(songEntity.getFilmEntity().getImg()).error(R.drawable.bontram).into(holder.image_song);
+                Glide.with(context).load(songEntity.getFilmEntity().getImg()).error(R.drawable.imageloading).into(holder.image_song);
                 holder.song_name.setText(songEntity.getFilmEntity().getFilmname());
                 holder.singer_name.setText(songEntity.getActorEntityList().get(0).getActorname());
             }

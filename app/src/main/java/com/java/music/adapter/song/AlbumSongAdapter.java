@@ -49,19 +49,19 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<AlbumSongAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         AlbumEntityModel entityModel = list.get(position);
-        try{
+        //try{
             if (entityModel!=null){
                 holder.nameSong.setText(entityModel.getAlbumEntity().getAlbumname());
                // holder.nameSong.setText(entityModel.getSingerEntity());
                 if (entityModel.getSongEntity()!=null){
-                    Glide.with(context).load(entityModel.getSongEntity().get(0).getImg()).into(holder.imageSong);
+                    Glide.with(context).load(entityModel.getSongEntity().get(0).getImg()).error(R.drawable.imageloading).into(holder.imageSong);
                 }else {
                     Glide.with(context).load(R.drawable.bontram).into(holder.imageSong);
                 }
             }
-        }catch (Exception e){
-            Log.e("Exe",e.getMessage());
-        }
+//        }catch (Exception e){
+//            Log.e("Exe",e.getMessage());
+//        }
     }
 
     @Override
