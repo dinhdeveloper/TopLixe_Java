@@ -116,7 +116,7 @@ public class SongFragment extends Fragment {
 
     private void searchSong(String search) {
         if (search != null) {
-            token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+            token.setApiToken("7E277A25310E4D1AA3E6B0F0615AD39A");
             apiService.getSearchSong(token, search).enqueue(new Callback<List<SongEntityModel>>() {
                 @Override
                 public void onResponse(Call<List<SongEntityModel>> call, Response<List<SongEntityModel>> response) {
@@ -166,7 +166,7 @@ public class SongFragment extends Fragment {
     }
 
     private void getSongTop10() {
-        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        token.setApiToken("7E277A25310E4D1AA3E6B0F0615AD39A");
         apiService.getAllSong(token).enqueue(new Callback<List<SongEntityModel>>() {
             @Override
             public void onResponse(Call<List<SongEntityModel>> call, Response<List<SongEntityModel>> response) {
@@ -212,7 +212,7 @@ public class SongFragment extends Fragment {
     }
 
     private void getAllAlbum() {
-        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        token.setApiToken("7E277A25310E4D1AA3E6B0F0615AD39A");
         apiService.getAllAlbum(token).enqueue(new Callback<List<AlbumEntityModel>>() {
             @Override
             public void onResponse(Call<List<AlbumEntityModel>> call, Response<List<AlbumEntityModel>> response) {
@@ -242,7 +242,7 @@ public class SongFragment extends Fragment {
     }
 
     private void getPageSinger() {
-        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        token.setApiToken("7E277A25310E4D1AA3E6B0F0615AD39A");
         apiService.getSingerPage(token, 10, 0).enqueue(new Callback<List<SingerEntityModel>>() {
             @Override
             public void onResponse(Call<List<SingerEntityModel>> call, Response<List<SingerEntityModel>> response) {
@@ -274,7 +274,7 @@ public class SongFragment extends Fragment {
     }
 
     private void loadSongSuggress() {
-        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        token.setApiToken("7E277A25310E4D1AA3E6B0F0615AD39A");
         apiService.getSongPage(token, 20, 0).enqueue(new Callback<List<SongEntityModel>>() {
             @Override
             public void onResponse(Call<List<SongEntityModel>> call, Response<List<SongEntityModel>> response) {

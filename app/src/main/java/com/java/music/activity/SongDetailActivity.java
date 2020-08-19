@@ -189,7 +189,7 @@ public class SongDetailActivity extends AppCompatActivity {
     }
 
     private void getDataNext(int id) {
-        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        token.setApiToken("7E277A25310E4D1AA3E6B0F0615AD39A");
         apiService.getSongDetail(token,id).enqueue(new Callback<SongEntityModel>() {
             @Override
             public void onResponse(Call<SongEntityModel> call, Response<SongEntityModel> response) {
@@ -224,7 +224,7 @@ public class SongDetailActivity extends AppCompatActivity {
     }
 
     private void getDataPrevious(int id) {
-        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        token.setApiToken("7E277A25310E4D1AA3E6B0F0615AD39A");
         apiService.getSongDetail(token,id).enqueue(new Callback<SongEntityModel>() {
             @Override
             public void onResponse(Call<SongEntityModel> call, Response<SongEntityModel> response) {
@@ -259,7 +259,7 @@ public class SongDetailActivity extends AppCompatActivity {
     }
 
     private void getData(int id) {
-        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        token.setApiToken("7E277A25310E4D1AA3E6B0F0615AD39A");
         apiService.getSongDetail(token,id).enqueue(new Callback<SongEntityModel>() {
             @Override
             public void onResponse(Call<SongEntityModel> call, Response<SongEntityModel> response) {
@@ -278,7 +278,7 @@ public class SongDetailActivity extends AppCompatActivity {
     }
 
     private void getDataShuffle(int id) {
-        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        token.setApiToken("7E277A25310E4D1AA3E6B0F0615AD39A");
         apiService.getSongDetail(token,id).enqueue(new Callback<SongEntityModel>() {
             @Override
             public void onResponse(Call<SongEntityModel> call, Response<SongEntityModel> response) {

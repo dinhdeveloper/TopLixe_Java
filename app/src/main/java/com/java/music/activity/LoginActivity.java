@@ -10,10 +10,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.java.music.R;
 import com.java.music.api.APIService;
 import com.java.music.api.APIUntil;
+import com.java.music.model.Token;
+import com.java.music.model.UserEntityBean;
 import com.java.music.model.UserEntityModel;
 
 import java.util.List;
@@ -28,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     LinearLayout layoutLogin;
 
     APIService apiService;
+    Token token = new Token();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,20 +56,32 @@ public class LoginActivity extends AppCompatActivity {
         edtPassword = findViewById(R.id.edtPassword);
         layoutLogin = findViewById(R.id.layoutLogin);
 
-//        layoutLogin.setOnClickListener(v -> {
-//            apiService.login().enqueue(new Callback<List<UserEntityModel>>() {
-//                @Override
-//                public void onResponse(Call<List<UserEntityModel>> call, Response<List<UserEntityModel>> response) {
-//                    if (response.isSuccessful()) {
-//
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<List<UserEntityModel>> call, Throwable t) {
-//                    Log.e("onFailure", t.getMessage());
-//                }
-//            });
-//        });
+
+
+        layoutLogin.setOnClickListener(v -> {
+            if (edtUsername.getText().toString().trim().isEmpty() || edtPassword.getText().toString().trim().isEmpty()){
+                Toast.makeText(this, "Nhập đúng tên đăng nhập hoặc mật khẩu.", Toast.LENGTH_SHORT).show();
+            }else {
+                UserEntityModel model = new UserEntityModel();
+                model.setApiToken("7E277A25310E4D1AA3E6B0F0615AD39A");
+                UserEntityBean bean = new UserEntityBean();
+                bean.setUsername(edtUsername.getText().toString().trim());
+                bean.setPassword(edtPassword.getText().toString().trim());
+                model.setUserEntity(bean);
+                apiService.login(model).enqueue(new Callback<List<UserEntityModel>>() {
+                    @Override
+                    public void onResponse(Call<List<UserEntityModel>> call, Response<List<UserEntityModel>> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(LoginActivity.this, ""+response.body().size(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<UserEntityModel>> call, Throwable t) {
+                        Log.e("onFailure", t.getMessage());
+                    }
+                });
+            }
+        });
     }
 }

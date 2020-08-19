@@ -77,7 +77,7 @@ public class FilmDetailFragment extends Fragment {
     }
 
     private void getDataMore() {
-        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        token.setApiToken("7E277A25310E4D1AA3E6B0F0615AD39A");
         apiService.getHasPageFilm(token,20, 0).enqueue(new Callback<List<FilmEntityModel>>() {
             @Override
             public void onResponse(Call<List<FilmEntityModel>> call, Response<List<FilmEntityModel>> response) {

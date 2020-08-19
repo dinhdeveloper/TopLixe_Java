@@ -113,7 +113,7 @@ public class FilmFragment extends Fragment {
 
     private void searchFilm(String search) {
         if (search != null) {
-            token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+            token.setApiToken("7E277A25310E4D1AA3E6B0F0615AD39A");
             apiService.getSearchFilm(token, search).enqueue(new Callback<List<FilmEntityModel>>() {
                 @Override
                 public void onResponse(Call<List<FilmEntityModel>> call, Response<List<FilmEntityModel>> response) {
@@ -162,7 +162,7 @@ public class FilmFragment extends Fragment {
     }
 
     private void callFilmHasPage() {
-        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        token.setApiToken("7E277A25310E4D1AA3E6B0F0615AD39A");
         apiService.getHasPageFilm(token,10, 0).enqueue(new Callback<List<FilmEntityModel>>() {
             @Override
             public void onResponse(Call<List<FilmEntityModel>> call, Response<List<FilmEntityModel>> response) {
@@ -204,7 +204,7 @@ public class FilmFragment extends Fragment {
     }
 
     private void callActor() {
-        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        token.setApiToken("7E277A25310E4D1AA3E6B0F0615AD39A");
         apiService.getActor( token,10, 0).enqueue(new Callback<List<ActorEntityModel>>() {
             @Override
             public void onResponse(Call<List<ActorEntityModel>> call, Response<List<ActorEntityModel>> response) {
@@ -236,7 +236,7 @@ public class FilmFragment extends Fragment {
     }
 
     private void callGoiYChoBan() {
-        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        token.setApiToken("7E277A25310E4D1AA3E6B0F0615AD39A");
         apiService.getAllFilm(token).enqueue(new Callback<List<FilmEntityModel>>() {
             @Override
             public void onResponse(Call<List<FilmEntityModel>> call, Response<List<FilmEntityModel>> response) {
@@ -278,7 +278,7 @@ public class FilmFragment extends Fragment {
     }
 
     private void callFilmHot() {
-        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        token.setApiToken("7E277A25310E4D1AA3E6B0F0615AD39A");
         apiService.getAllFilm(token).enqueue(new Callback<List<FilmEntityModel>>() {
             @Override
             public void onResponse(Call<List<FilmEntityModel>> call, Response<List<FilmEntityModel>> response) {

@@ -83,7 +83,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadSongSuggress() {
-        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        token.setApiToken("7E277A25310E4D1AA3E6B0F0615AD39A");
         apiService.getAllSong(token).enqueue(new Callback<List<SongEntityModel>>() {
             @Override
             public void onResponse(Call<List<SongEntityModel>> call, Response<List<SongEntityModel>> response) {
@@ -129,7 +129,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadFilmSugges() {
-        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        token.setApiToken("7E277A25310E4D1AA3E6B0F0615AD39A");
         apiService.getAllFilm(token).enqueue(new Callback<List<FilmEntityModel>>() {
             @Override
             public void onResponse(Call<List<FilmEntityModel>> call, Response<List<FilmEntityModel>> response) {
@@ -173,7 +173,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadFilmNewHome() {
-        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        token.setApiToken("7E277A25310E4D1AA3E6B0F0615AD39A");
         apiService.getAllFilm(token).enqueue(new Callback<List<FilmEntityModel>>() {
             @Override
             public void onResponse(Call<List<FilmEntityModel>> call, Response<List<FilmEntityModel>> response) {
@@ -215,7 +215,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadSongHome() {
-        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        token.setApiToken("7E277A25310E4D1AA3E6B0F0615AD39A");
         apiService.getAllSong(token).enqueue(new Callback<List<SongEntityModel>>() {
             @Override
             public void onResponse(Call<List<SongEntityModel>> call, Response<List<SongEntityModel>> response) {
@@ -261,7 +261,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadSongRandom() {
-        token.setApiToken("81799789AE3A4D0C8ABEE22023622522");
+        token.setApiToken("7E277A25310E4D1AA3E6B0F0615AD39A");
         apiService.getAllSong(token).enqueue(new Callback<List<SongEntityModel>>() {
             @Override
             public void onResponse(Call<List<SongEntityModel>> call, Response<List<SongEntityModel>> response) {
