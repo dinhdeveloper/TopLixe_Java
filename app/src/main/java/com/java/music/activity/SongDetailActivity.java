@@ -44,6 +44,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.java.music.activity.MainActivity.CHECKSONG;
 import static com.java.music.activity.MainActivity.MEDIAPLAYER;
 import static com.java.music.fragment.song.SongFragment.isValid;
 
@@ -309,6 +310,7 @@ public class SongDetailActivity extends AppCompatActivity {
 
 
     private void playNhac(SongEntity entityModel) {
+        CHECKSONG = true;
         ObjectAnimator animator = ObjectAnimator.ofFloat(imgDiaNhac, "rotation", 0f, 360f);
         animator.setDuration(10000);// thoi gian xoay dia nhac
         animator.setRepeatCount(ValueAnimator.INFINITE);
@@ -352,10 +354,12 @@ public class SongDetailActivity extends AppCompatActivity {
             if (MEDIAPLAYER != null) {
                 if (MEDIAPLAYER.isPlaying()) {
                     MEDIAPLAYER.pause();
+                    CHECKSONG = false;
                     imgPlay.setImageResource(R.drawable.ic_play);
                 } else {
                     MEDIAPLAYER.start();
                     animator.start();
+                    CHECKSONG = true;
                     imgPlay.setImageResource(R.drawable.ic_pause);
                 }
             }

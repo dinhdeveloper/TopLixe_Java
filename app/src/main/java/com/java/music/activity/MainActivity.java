@@ -14,18 +14,28 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.java.music.R;
 import com.java.music.fragment.film.FilmFragment;
 import com.java.music.fragment.home.HomeFragment;
 import com.java.music.fragment.song.SongFragment;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
     public static MediaPlayer MEDIAPLAYER = null;
     boolean doubleBackToExitPressedOnce = false;
+
+    public static boolean CHECKSONG = false;
+
+    LinearLayout layout_song;
+    ImageView imvPlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,13 +43,35 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         setContentView(R.layout.activity_main);
         //FullScreencall();
         isOnline();
-
+        layout_song = findViewById(R.id.layout_song);
+        imvPlay = findViewById(R.id.imvPlay);
         BottomNavigationView navBottom = findViewById(R.id.navBottom);
         navBottom.setOnNavigationItemSelectedListener(this);
         defauFragment(new HomeFragment());
     }
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if (MEDIAPLAYER!=null){
+            layout_song.setVisibility(View.VISIBLE);
+            if (CHECKSONG==true){
+                imvPlay.setImageResource(R.drawable.ic_pause);
+                imvPlay.setOnClickListener(v -> {
+                    if (MEDIAPLAYER.isPlaying()) {
+                        MEDIAPLAYER.pause();
+                        imvPlay.setImageResource(R.drawable.ic_play);
+                    } else {
+                        MEDIAPLAYER.start();
+                        imvPlay.setImageResource(R.drawable.ic_pause);
+                    }
+                });
+            }else {
+                layout_song.setVisibility(View.GONE);
+            }
+        }
+    }
 
-        private void isOnline() {
+    private void isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
         if (ni != null && ni.isConnected()) {

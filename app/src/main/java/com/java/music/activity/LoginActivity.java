@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         apiService = APIUntil.getServer();
         hideSoftKeyboard(LoginActivity.this);
+        hideSoftKeyboard2(LoginActivity.this);
         SharePrefs prefs = new SharePrefs(getApplicationContext());
         CustomerModel sha = prefs.getUserModel();
         if (sha!=null){
@@ -152,6 +153,17 @@ public class LoginActivity extends AppCompatActivity {
                 inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         } catch (Exception ignored) {
+        }
+    }
+    public static void hideSoftKeyboard2(Activity mActivity) {
+        try {
+            View view = mActivity.getCurrentFocus();
+            if (view != null) {
+                InputMethodManager inputManager = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
