@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.gson.JsonObject;
 import com.java.music.R;
 import com.java.music.activity.AlbumActivity;
@@ -74,7 +75,7 @@ public class SongFragment extends Fragment {
 
     CardView card_hot, card_singer, card_album, card_singer_goiy;
     RecyclerView rc_listHot, rc_SingerPage, rc_album, rc_Singer_GoiY;
-
+    ShimmerFrameLayout mShimmerFrameLayout;
     Token token = new Token();
     CustomerModel customerModel;
     SharePrefs prefs;
@@ -98,6 +99,18 @@ public class SongFragment extends Fragment {
         onClick();
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mShimmerFrameLayout.startShimmer();
+    }
+
+    @Override
+    public void onPause() {
+        mShimmerFrameLayout.stopShimmer();
+        super.onPause();
     }
 
     private void onClick() {
@@ -165,6 +178,9 @@ public class SongFragment extends Fragment {
                             listResultSearch.setAdapter(adapter);
                             listResultSearch.setHasFixedSize(true);
                             adapter.notifyDataSetChanged();
+                            //shimmerAnimation stop and hide
+                            mShimmerFrameLayout.stopShimmer();
+                            mShimmerFrameLayout.setVisibility(View.GONE);
                             adapter.setListenner(entity -> {
                                 if (entity != null) {
 
@@ -212,6 +228,9 @@ public class SongFragment extends Fragment {
                     SongNewApdapter songRandomHomeAdapter = new SongNewApdapter(getContext(), response.body());
                     rc_listHot.setAdapter(songRandomHomeAdapter);
                     songRandomHomeAdapter.notifyDataSetChanged();
+                    //shimmerAnimation stop and hide
+                    mShimmerFrameLayout.stopShimmer();
+                    mShimmerFrameLayout.setVisibility(View.GONE);
                     songRandomHomeAdapter.setListener(model -> {
                         if (model != null) {
 
@@ -257,6 +276,9 @@ public class SongFragment extends Fragment {
                 AlbumSongAdapter songRandomHomeAdapter = new AlbumSongAdapter(getContext(), response.body());
                 rc_album.setAdapter(songRandomHomeAdapter);
                 songRandomHomeAdapter.notifyDataSetChanged();
+                //shimmerAnimation stop and hide
+                mShimmerFrameLayout.stopShimmer();
+                mShimmerFrameLayout.setVisibility(View.GONE);
                 songRandomHomeAdapter.setListener(model -> {
                     if (model.getSongEntity() != null) {
                         Intent intent = new Intent(getContext(), AlbumActivity.class);
@@ -288,6 +310,9 @@ public class SongFragment extends Fragment {
                     SingerPageSongAdapter songRandomHomeAdapter = new SingerPageSongAdapter(getContext(), response.body());
                     rc_SingerPage.setAdapter(songRandomHomeAdapter);
                     songRandomHomeAdapter.notifyDataSetChanged();
+                    //shimmerAnimation stop and hide
+                    mShimmerFrameLayout.stopShimmer();
+                    mShimmerFrameLayout.setVisibility(View.GONE);
                     songRandomHomeAdapter.setListener(model -> {
                         if (model.getSongDTOList() != null) {
                             Intent intent = new Intent(getContext(), SingerActivity.class);
@@ -320,6 +345,9 @@ public class SongFragment extends Fragment {
                     SongSuggressHomeAdapter songRandomHomeAdapter = new SongSuggressHomeAdapter(getContext(), response.body());
                     rc_Singer_GoiY.setAdapter(songRandomHomeAdapter);
                     songRandomHomeAdapter.notifyDataSetChanged();
+                    //shimmerAnimation stop and hide
+                    mShimmerFrameLayout.stopShimmer();
+                    mShimmerFrameLayout.setVisibility(View.GONE);
                     songRandomHomeAdapter.setListener(model -> {
                         if (model != null) {
 
@@ -383,5 +411,6 @@ public class SongFragment extends Fragment {
         layoutSong = view.findViewById(R.id.layoutSong);
         imgUser = view.findViewById(R.id.imgUser);
         txtNameUser = view.findViewById(R.id.txtNameUser);
+        mShimmerFrameLayout = view.findViewById(R.id.shimmer_view_product);
     }
 }

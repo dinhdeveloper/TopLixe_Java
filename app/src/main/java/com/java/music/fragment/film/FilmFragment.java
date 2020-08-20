@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.java.music.R;
 import com.java.music.activity.ActorActivity;
 import com.java.music.activity.FilmDetailActivity;
@@ -68,7 +69,7 @@ public class FilmFragment extends Fragment {
     EditText edtSearch;
     TextView txtNameUser;
     CircleImageView imgUser;
-
+    ShimmerFrameLayout mShimmerFrameLayout;
     CardView card_hot, card_recommend, card_actor;
     RecyclerView rc_listHot, rc_listSuggest, rc_actor, rc_listFilm;
 
@@ -172,6 +173,9 @@ public class FilmFragment extends Fragment {
                             listResultSearch.setAdapter(adapter);
                             listResultSearch.setHasFixedSize(true);
                             adapter.notifyDataSetChanged();
+                            //shimmerAnimation stop and hide
+                            mShimmerFrameLayout.stopShimmer();
+                            mShimmerFrameLayout.setVisibility(View.GONE);
                             adapter.setListenner(entity -> {
                                 if (entity != null) {
                                     if (MEDIAPLAYER != null) {
@@ -218,6 +222,9 @@ public class FilmFragment extends Fragment {
                     FilmHasPageAdapter songRandomHomeAdapter = new FilmHasPageAdapter(getContext(), response.body());
                     rc_listFilm.setAdapter(songRandomHomeAdapter);
                     songRandomHomeAdapter.notifyDataSetChanged();
+                    //shimmerAnimation stop and hide
+                    mShimmerFrameLayout.stopShimmer();
+                    mShimmerFrameLayout.setVisibility(View.GONE);
                     songRandomHomeAdapter.setListener(model -> {
                         if (model != null) {
                             if (MEDIAPLAYER != null) {
@@ -260,6 +267,9 @@ public class FilmFragment extends Fragment {
                     FilmActorAdapter songRandomHomeAdapter = new FilmActorAdapter(getContext(), response.body());
                     rc_actor.setAdapter(songRandomHomeAdapter);
                     songRandomHomeAdapter.notifyDataSetChanged();
+                    //shimmerAnimation stop and hide
+                    mShimmerFrameLayout.stopShimmer();
+                    mShimmerFrameLayout.setVisibility(View.GONE);
                     songRandomHomeAdapter.setListener(model -> {
                         if (!model.getFilmDTOList().isEmpty()) {
                             Intent intent = new Intent(getContext(), ActorActivity.class);
@@ -292,6 +302,9 @@ public class FilmFragment extends Fragment {
                     FilmSuggrestionHomeAdapter songRandomHomeAdapter = new FilmSuggrestionHomeAdapter(getContext(), response.body());
                     rc_listSuggest.setAdapter(songRandomHomeAdapter);
                     songRandomHomeAdapter.notifyDataSetChanged();
+                    //shimmerAnimation stop and hide
+                    mShimmerFrameLayout.stopShimmer();
+                    mShimmerFrameLayout.setVisibility(View.GONE);
                     songRandomHomeAdapter.setListener(model -> {
                         if (model != null) {
                             if (MEDIAPLAYER != null) {
@@ -334,6 +347,9 @@ public class FilmFragment extends Fragment {
                     FilmSuggrestionHomeAdapter filmSuggrestionHomeAdapter = new FilmSuggrestionHomeAdapter(getContext(), response.body());
                     rc_listHot.setAdapter(filmSuggrestionHomeAdapter);
                     filmSuggrestionHomeAdapter.notifyDataSetChanged();
+                    //shimmerAnimation stop and hide
+                    mShimmerFrameLayout.stopShimmer();
+                    mShimmerFrameLayout.setVisibility(View.GONE);
                     filmSuggrestionHomeAdapter.setListener(model -> {
                         if (model != null) {
                             if (MEDIAPLAYER != null) {
@@ -365,6 +381,18 @@ public class FilmFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mShimmerFrameLayout.startShimmer();
+    }
+
+    @Override
+    public void onPause() {
+        mShimmerFrameLayout.stopShimmer();
+        super.onPause();
+    }
+
     private void addControls(View view) {
         card_hot = view.findViewById(R.id.card_hot);
         card_recommend = view.findViewById(R.id.card_recommend);
@@ -381,5 +409,6 @@ public class FilmFragment extends Fragment {
         edtSearch = view.findViewById(R.id.edtSearch);
         txtNameUser = view.findViewById(R.id.txtNameUser);
         imgUser = view.findViewById(R.id.imgUser);
+        mShimmerFrameLayout = view.findViewById(R.id.shimmer_view_product);
     }
 }

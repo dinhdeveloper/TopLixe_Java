@@ -8,6 +8,43 @@
     android:layout_above="@+id/navBottom"
     android:background="@color/hinhnen">
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_view_product"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        app:shimmer_duration="800"
+        android:visibility="visible"
+        tools:ignore="MissingConstraints"
+        tools:visibility="gone">
+
+        <!-- 3 rows added as a placeholders -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/custom_animation" />
+
+            <include layout="@layout/custom_animation" />
+
+            <include layout="@layout/custom_animation" />
+
+            <include layout="@layout/custom_animation" />
+
+            <include layout="@layout/custom_animation" />
+
+            <include layout="@layout/custom_animation" />
+
+            <include layout="@layout/custom_animation" />
+
+            <include layout="@layout/custom_animation" />
+
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -39,7 +76,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="APP MUSIC"
+                    android:text="TOP LIXE"
                     android:fontFamily="@font/roboto_bold"
                     android:textColor="#CDD5D4"
                     android:textSize="23dp"
@@ -47,6 +84,7 @@
 
                 <ImageView
                     android:id="@+id/icon_notification"
+                    android:visibility="invisible"
                     android:layout_width="26dp"
                     android:layout_height="26dp"
                     android:src="@drawable/ic_notifications_while" />

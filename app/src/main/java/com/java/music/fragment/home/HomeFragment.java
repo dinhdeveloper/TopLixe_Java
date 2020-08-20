@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.java.music.R;
 import com.java.music.activity.FilmDetailActivity;
 import com.java.music.activity.LoginActivity;
@@ -52,7 +53,7 @@ public class HomeFragment extends Fragment {
     ImageView icon_person;
     RecyclerView rc_songrandom, rc_musicrank, rc_filmnew, rc_actor_hot, rc_film_goiy, rc_song_goiy;
     CardView card_nghegi, card_musicrank, card_filmnew, card_actor_hot, card_film_goiy, card_song_goiy;
-
+    ShimmerFrameLayout mShimmerFrameLayout;
     CustomerModel customerModel;
     SharePrefs prefs;
     @Override
@@ -72,6 +73,17 @@ public class HomeFragment extends Fragment {
         loadSongSuggress();
         Onclick();
         return view;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        mShimmerFrameLayout.startShimmer();
+    }
+
+    @Override
+    public void onPause() {
+        mShimmerFrameLayout.stopShimmer();
+        super.onPause();
     }
 
     private void Onclick() {
@@ -112,7 +124,7 @@ public class HomeFragment extends Fragment {
         card_song_goiy = view.findViewById(R.id.card_song_goiy);
         card_film_goiy = view.findViewById(R.id.card_film_goiy);
         icon_person = view.findViewById(R.id.icon_person);
-
+        mShimmerFrameLayout = view.findViewById(R.id.shimmer_view_product);
     }
 
     private void loadSongSuggress() {
@@ -126,6 +138,9 @@ public class HomeFragment extends Fragment {
                     SongSuggressHomeAdapter suggressHomeAdapter = new SongSuggressHomeAdapter(getContext(), response.body());
                     rc_song_goiy.setAdapter(suggressHomeAdapter);
                     suggressHomeAdapter.notifyDataSetChanged();
+                    //shimmerAnimation stop and hide
+                    mShimmerFrameLayout.stopShimmer();
+                    mShimmerFrameLayout.setVisibility(View.GONE);
                     suggressHomeAdapter.setListener(model -> {
                         if (model != null) {
 
@@ -172,6 +187,9 @@ public class HomeFragment extends Fragment {
                     FilmSuggrestionHomeAdapter filmSuggrestionHomeAdapter = new FilmSuggrestionHomeAdapter(getContext(), response.body());
                     rc_film_goiy.setAdapter(filmSuggrestionHomeAdapter);
                     filmSuggrestionHomeAdapter.notifyDataSetChanged();
+                    //shimmerAnimation stop and hide
+                    mShimmerFrameLayout.stopShimmer();
+                    mShimmerFrameLayout.setVisibility(View.GONE);
                     filmSuggrestionHomeAdapter.setListener(model -> {
                         if (model != null) {
                             if (MEDIAPLAYER != null) {
@@ -216,6 +234,9 @@ public class HomeFragment extends Fragment {
                     FilmNewHomeAdapter filmNewHomeAdapter = new FilmNewHomeAdapter(getContext(), response.body());
                     rc_filmnew.setAdapter(filmNewHomeAdapter);
                     filmNewHomeAdapter.notifyDataSetChanged();
+                    //shimmerAnimation stop and hide
+                    mShimmerFrameLayout.stopShimmer();
+                    mShimmerFrameLayout.setVisibility(View.GONE);
                     filmNewHomeAdapter.setListener(model -> {
                         if (model != null) {
                             if (MEDIAPLAYER != null) {
@@ -258,6 +279,9 @@ public class HomeFragment extends Fragment {
                     SongHomeAdapter songHomeAdapter = new SongHomeAdapter(getContext(), response.body());
                     rc_musicrank.setAdapter(songHomeAdapter);
                     songHomeAdapter.notifyDataSetChanged();
+                    //shimmerAnimation stop and hide
+                    mShimmerFrameLayout.stopShimmer();
+                    mShimmerFrameLayout.setVisibility(View.GONE);
                     songHomeAdapter.setListener(model -> {
                         if (model != null) {
 
@@ -304,6 +328,9 @@ public class HomeFragment extends Fragment {
                     SongRandomHomeAdapter songRandomHomeAdapter = new SongRandomHomeAdapter(getContext(), response.body());
                     rc_songrandom.setAdapter(songRandomHomeAdapter);
                     songRandomHomeAdapter.notifyDataSetChanged();
+                    //shimmerAnimation stop and hide
+                    mShimmerFrameLayout.stopShimmer();
+                    mShimmerFrameLayout.setVisibility(View.GONE);
                     songRandomHomeAdapter.setListener(model -> {
                         if (model != null) {
 

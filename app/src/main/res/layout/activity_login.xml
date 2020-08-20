@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:layout_gravity="center"
     android:gravity="center"
+    android:configChanges="keyboardHidden"
     android:background="@color/hinhnen"
     tools:context=".activity.LoginActivity">
 
