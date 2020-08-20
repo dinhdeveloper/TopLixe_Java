@@ -28,6 +28,7 @@ import com.google.gson.JsonObject;
 import com.java.music.R;
 import com.java.music.activity.AlbumActivity;
 import com.java.music.activity.FilmDetailActivity;
+import com.java.music.activity.LoginActivity;
 import com.java.music.activity.MainActivity;
 import com.java.music.activity.SingerActivity;
 import com.java.music.activity.SongDetailActivity;
@@ -38,6 +39,8 @@ import com.java.music.adapter.song.SongSearchAdapter;
 import com.java.music.adapter.song.SongSuggressHomeAdapter;
 import com.java.music.api.APIService;
 import com.java.music.api.APIUntil;
+import com.java.music.common.SharePrefs;
+import com.java.music.model.CustomerModel;
 import com.java.music.model.Token;
 import com.java.music.model.singer.SingerEntityModel;
 import com.java.music.model.song.AlbumEntityModel;
@@ -48,6 +51,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,14 +65,19 @@ public class SongFragment extends Fragment {
     APIService apiService;
     ImageView img_search, imvCloseSearch;
     EditText edtSearchSong;
+    TextView txtNameUser;
     LinearLayout layoutSearch;
     RecyclerView listResultSearch;
     NestedScrollView layoutSong;
+    CircleImageView imgUser;
+
 
     CardView card_hot, card_singer, card_album, card_singer_goiy;
     RecyclerView rc_listHot, rc_SingerPage, rc_album, rc_Singer_GoiY;
 
     Token token = new Token();
+    CustomerModel customerModel;
+    SharePrefs prefs;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,7 +86,11 @@ public class SongFragment extends Fragment {
 
         apiService = APIUntil.getServer();
         addControls(view);
-
+        prefs = new SharePrefs(getActivity());
+        customerModel = prefs.getUserModel();
+        if (customerModel != null) {
+            txtNameUser.setText(customerModel.getUserEntity().getDisplayname());
+        }
         getSongTop10();
         getAllAlbum();
         getPageSinger();
@@ -87,6 +101,28 @@ public class SongFragment extends Fragment {
     }
 
     private void onClick() {
+        imgUser.setOnClickListener(v -> {
+            new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("Đăng xuất")
+                    .setContentText("Bạn có muốn đăng xuất khỏi thiết bị không?")
+                    .setConfirmText("Đồng ý")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            prefs.clear();
+                            startActivity(new Intent(getContext(), LoginActivity.class));
+                            getActivity().finish();
+                        }
+                    })
+                    .setCancelButton("Quay lại", new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.dismissWithAnimation();
+                        }
+                    })
+                    .show();
+        });
+
         img_search.setOnClickListener(v -> {
             layoutSearch.setVisibility(View.VISIBLE);
             img_search.setVisibility(View.GONE);
@@ -345,5 +381,7 @@ public class SongFragment extends Fragment {
         layoutSearch = view.findViewById(R.id.layoutSearch);
         listResultSearch = view.findViewById(R.id.listResultSearch);
         layoutSong = view.findViewById(R.id.layoutSong);
+        imgUser = view.findViewById(R.id.imgUser);
+        txtNameUser = view.findViewById(R.id.txtNameUser);
     }
 }

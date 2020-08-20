@@ -25,6 +25,8 @@
         android:layout_height="43dp">
         <EditText
             android:id="@+id/edtUsername"
+            android:inputType="text"
+            android:imeOptions="actionNext"
             android:textSize="14sp"
             android:fontFamily="@font/roboto_light"
             android:textColor="@color/whiles"
@@ -46,6 +48,8 @@
         android:layout_height="43dp">
         <EditText
             android:id="@+id/edtPassword"
+            android:inputType="textPassword"
+            android:imeOptions="actionDone"
             android:textSize="14sp"
             android:fontFamily="@font/roboto_light"
             android:textColor="@color/whiles"

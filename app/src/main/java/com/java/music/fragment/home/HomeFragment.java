@@ -14,10 +14,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.java.music.R;
 import com.java.music.activity.FilmDetailActivity;
+import com.java.music.activity.LoginActivity;
 import com.java.music.activity.SongDetailActivity;
 import com.java.music.adapter.film.FilmNewHomeAdapter;
 import com.java.music.adapter.film.FilmSuggrestionHomeAdapter;
@@ -26,6 +28,8 @@ import com.java.music.adapter.song.SongRandomHomeAdapter;
 import com.java.music.adapter.song.SongSuggressHomeAdapter;
 import com.java.music.api.APIService;
 import com.java.music.api.APIUntil;
+import com.java.music.common.SharePrefs;
+import com.java.music.model.CustomerModel;
 import com.java.music.model.Token;
 import com.java.music.model.film.FilmEntityModel;
 import com.java.music.model.song.SongEntityModel;
@@ -33,6 +37,7 @@ import com.java.music.model.song.SongEntityModel;
 import java.net.URL;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,17 +49,20 @@ public class HomeFragment extends Fragment {
     Token token = new Token();
 
     APIService apiService;
+    ImageView icon_person;
     RecyclerView rc_songrandom, rc_musicrank, rc_filmnew, rc_actor_hot, rc_film_goiy, rc_song_goiy;
     CardView card_nghegi, card_musicrank, card_filmnew, card_actor_hot, card_film_goiy, card_song_goiy;
 
-
+    CustomerModel customerModel;
+    SharePrefs prefs;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_home, container, false);
 
         apiService = APIUntil.getServer();
-
+        prefs = new SharePrefs(getActivity());
+        customerModel = prefs.getUserModel();
         addControls(view);
 
         loadSongRandom();
@@ -62,8 +70,32 @@ public class HomeFragment extends Fragment {
         loadFilmNewHome();
         loadFilmSugges();
         loadSongSuggress();
-
+        Onclick();
         return view;
+    }
+
+    private void Onclick() {
+        icon_person.setOnClickListener(v -> {
+            new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("Đăng xuất")
+                    .setContentText("Bạn có muốn đăng xuất khỏi thiết bị không?")
+                    .setConfirmText("Đồng ý")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            prefs.clear();
+                            startActivity(new Intent(getContext(), LoginActivity.class));
+                            getActivity().finish();
+                        }
+                    })
+                    .setCancelButton("Quay lại", new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.dismissWithAnimation();
+                        }
+                    })
+                    .show();
+        });
     }
 
     private void addControls(View view) {
@@ -79,6 +111,7 @@ public class HomeFragment extends Fragment {
         card_actor_hot = view.findViewById(R.id.card_actor_hot);
         card_song_goiy = view.findViewById(R.id.card_song_goiy);
         card_film_goiy = view.findViewById(R.id.card_film_goiy);
+        icon_person = view.findViewById(R.id.icon_person);
 
     }
 

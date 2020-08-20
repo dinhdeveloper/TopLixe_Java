@@ -1,5 +1,6 @@
 package com.java.music.fragment.film;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -25,6 +26,8 @@ import android.widget.Toast;
 import com.java.music.R;
 import com.java.music.activity.ActorActivity;
 import com.java.music.activity.FilmDetailActivity;
+import com.java.music.activity.LoginActivity;
+import com.java.music.activity.MainActivity;
 import com.java.music.adapter.actor.FilmActorAdapter;
 import com.java.music.adapter.film.FilmHasPageAdapter;
 import com.java.music.adapter.film.FilmSearchAdapter;
@@ -32,6 +35,8 @@ import com.java.music.adapter.film.FilmSuggrestionHomeAdapter;
 import com.java.music.adapter.song.SongSearchAdapter;
 import com.java.music.api.APIService;
 import com.java.music.api.APIUntil;
+import com.java.music.common.SharePrefs;
+import com.java.music.model.CustomerModel;
 import com.java.music.model.Token;
 import com.java.music.model.actor.ActorEntity;
 import com.java.music.model.actor.ActorEntityModel;
@@ -44,6 +49,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,14 +63,18 @@ public class FilmFragment extends Fragment {
     APIService apiService;
     NestedScrollView layoutFilm;
     RecyclerView listResultSearch;
-    ImageView img_search,imvCloseSearch;
+    ImageView img_search, imvCloseSearch;
     LinearLayout layoutSearch;
     EditText edtSearch;
+    TextView txtNameUser;
+    CircleImageView imgUser;
 
     CardView card_hot, card_recommend, card_actor;
     RecyclerView rc_listHot, rc_listSuggest, rc_actor, rc_listFilm;
 
     Token token = new Token();
+    CustomerModel customerModel;
+    SharePrefs prefs;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,16 +84,22 @@ public class FilmFragment extends Fragment {
 
         apiService = APIUntil.getServer();
         addControls(view);
-
+        prefs = new SharePrefs(getActivity());
+        customerModel = prefs.getUserModel();
+        if (customerModel != null) {
+            txtNameUser.setText(customerModel.getUserEntity().getDisplayname());
+        }
         callFilmHot();
         callGoiYChoBan();
         callActor();
         callFilmHasPage();
 
+
         onClick();
 
         return view;
     }
+
     private void onClick() {
         img_search.setOnClickListener(v -> {
             layoutSearch.setVisibility(View.VISIBLE);
@@ -109,6 +126,35 @@ public class FilmFragment extends Fragment {
                 layoutFilm.setVisibility(View.VISIBLE);
             });
         });
+        imgUser.setOnClickListener(v -> {
+//            LayoutInflater layoutInflater = getLayoutInflater();
+//            View popupView = layoutInflater.inflate(R.layout.custom_popup_logout, null);
+//            AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+//            alert.setView(popupView);
+//            AlertDialog dialog = alert.create();
+//            //dialog.setCanceledOnTouchOutside(false);
+//            dialog.show();
+
+            new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("Đăng xuất")
+                    .setContentText("Bạn có muốn đăng xuất khỏi thiết bị không?")
+                    .setConfirmText("Đồng ý")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            prefs.clear();
+                            startActivity(new Intent(getContext(), LoginActivity.class));
+                            getActivity().finish();
+                        }
+                    })
+                    .setCancelButton("Quay lại", new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.dismissWithAnimation();
+                        }
+                    })
+                    .show();
+        });
     }
 
     private void searchFilm(String search) {
@@ -118,7 +164,7 @@ public class FilmFragment extends Fragment {
                 @Override
                 public void onResponse(Call<List<FilmEntityModel>> call, Response<List<FilmEntityModel>> response) {
                     if (response.isSuccessful()) {
-                        if (!response.body().isEmpty()){
+                        if (!response.body().isEmpty()) {
                             listResultSearch.setVisibility(View.VISIBLE);
                             layoutFilm.setVisibility(View.GONE);
                             FilmSearchAdapter adapter = new FilmSearchAdapter(response.body(), getContext());
@@ -147,7 +193,7 @@ public class FilmFragment extends Fragment {
                                     }
                                 }
                             });
-                        }else {
+                        } else {
                             Toast.makeText(getContext(), "Không tìm thấy phim", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -163,7 +209,7 @@ public class FilmFragment extends Fragment {
 
     private void callFilmHasPage() {
         token.setApiToken("7E277A25310E4D1AA3E6B0F0615AD39A");
-        apiService.getHasPageFilm(token,10, 0).enqueue(new Callback<List<FilmEntityModel>>() {
+        apiService.getHasPageFilm(token, 10, 0).enqueue(new Callback<List<FilmEntityModel>>() {
             @Override
             public void onResponse(Call<List<FilmEntityModel>> call, Response<List<FilmEntityModel>> response) {
                 if (response.isSuccessful()) {
@@ -205,7 +251,7 @@ public class FilmFragment extends Fragment {
 
     private void callActor() {
         token.setApiToken("7E277A25310E4D1AA3E6B0F0615AD39A");
-        apiService.getActor( token,10, 0).enqueue(new Callback<List<ActorEntityModel>>() {
+        apiService.getActor(token, 10, 0).enqueue(new Callback<List<ActorEntityModel>>() {
             @Override
             public void onResponse(Call<List<ActorEntityModel>> call, Response<List<ActorEntityModel>> response) {
                 if (response.isSuccessful()) {
@@ -215,13 +261,13 @@ public class FilmFragment extends Fragment {
                     rc_actor.setAdapter(songRandomHomeAdapter);
                     songRandomHomeAdapter.notifyDataSetChanged();
                     songRandomHomeAdapter.setListener(model -> {
-                        if (!model.getFilmDTOList().isEmpty()){
+                        if (!model.getFilmDTOList().isEmpty()) {
                             Intent intent = new Intent(getContext(), ActorActivity.class);
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("model", model);
                             intent.putExtras(bundle);
                             startActivity(intent);
-                        }else {
+                        } else {
                             Toast.makeText(getContext(), "Không có phim cho diễn viên này.", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -254,7 +300,7 @@ public class FilmFragment extends Fragment {
                                 MEDIAPLAYER.release();
                             }
                             MEDIAPLAYER = null;
-                            String customURL =model.getFilmEntity().getUploadsource();
+                            String customURL = model.getFilmEntity().getUploadsource();
 
                             if (isValid(customURL)) {
                                 Intent intent = new Intent(getContext(), FilmDetailActivity.class);
@@ -333,5 +379,7 @@ public class FilmFragment extends Fragment {
         imvCloseSearch = view.findViewById(R.id.imvCloseSearch);
         layoutSearch = view.findViewById(R.id.layoutSearch);
         edtSearch = view.findViewById(R.id.edtSearch);
+        txtNameUser = view.findViewById(R.id.txtNameUser);
+        imgUser = view.findViewById(R.id.imgUser);
     }
 }

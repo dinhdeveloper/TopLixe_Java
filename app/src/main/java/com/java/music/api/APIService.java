@@ -1,6 +1,7 @@
 package com.java.music.api;
 
 import com.google.gson.JsonObject;
+import com.java.music.model.CustomerModel;
 import com.java.music.model.Token;
 import com.java.music.model.UserEntityModel;
 import com.java.music.model.actor.ActorEntityModel;
@@ -111,6 +112,6 @@ public interface APIService {
             "userToken: aaa"
     })
     @POST("Lixe/api/Account/Login")
-    Call<List<UserEntityModel>> login(@Body UserEntityModel model);
+    Call<CustomerModel> login(@Body UserEntityModel model);
 
 }

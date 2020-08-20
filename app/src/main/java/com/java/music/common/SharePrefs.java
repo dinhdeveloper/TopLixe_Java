@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
+import com.java.music.model.CustomerModel;
 import com.java.music.model.UserEntityModel;
 
 import java.util.Locale;
@@ -443,14 +444,14 @@ public class SharePrefs {
 
     private final Gson gson = new Gson();
 
-    public void saveUserModel(UserEntityModel model) {
+    public void saveUserModel(CustomerModel model) {
         save(PREF_USER_MODEL, gson.toJson(model));
     }
 
-    public UserEntityModel getUserModel() {
+    public CustomerModel getUserModel() {
         String json = get(PREF_USER_MODEL, "");
         if (!TextUtils.isEmpty(json)) {
-            return gson.fromJson(json, UserEntityModel.class);
+            return gson.fromJson(json, CustomerModel.class);
         }
         return null;
     }

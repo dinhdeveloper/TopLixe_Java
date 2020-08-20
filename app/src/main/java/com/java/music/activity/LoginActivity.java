@@ -2,6 +2,7 @@ package com.java.music.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,8 @@ import android.widget.Toast;
 import com.java.music.R;
 import com.java.music.api.APIService;
 import com.java.music.api.APIUntil;
+import com.java.music.common.SharePrefs;
+import com.java.music.model.CustomerModel;
 import com.java.music.model.Token;
 import com.java.music.model.UserEntityBean;
 import com.java.music.model.UserEntityModel;
@@ -42,6 +45,13 @@ public class LoginActivity extends AppCompatActivity {
 
         apiService = APIUntil.getServer();
 
+        SharePrefs prefs = new SharePrefs(getApplicationContext());
+        CustomerModel sha = prefs.getUserModel();
+        if (sha!=null){
+            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+            finish();
+        }
+
         if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
             View v = this.getWindow().getDecorView();
             v.setSystemUiVisibility(View.GONE);
@@ -68,17 +78,22 @@ public class LoginActivity extends AppCompatActivity {
                 bean.setUsername(edtUsername.getText().toString().trim());
                 bean.setPassword(edtPassword.getText().toString().trim());
                 model.setUserEntity(bean);
-                apiService.login(model).enqueue(new Callback<List<UserEntityModel>>() {
+
+                apiService.login(model).enqueue(new Callback<CustomerModel>() {
                     @Override
-                    public void onResponse(Call<List<UserEntityModel>> call, Response<List<UserEntityModel>> response) {
-                        if (response.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this, ""+response.body().size(), Toast.LENGTH_SHORT).show();
+                    public void onResponse(Call<CustomerModel> call, Response<CustomerModel> response) {
+                        if (response.isSuccessful()){
+                            CustomerModel customerModel = response.body();
+                            SharePrefs prefs = new SharePrefs(getApplicationContext());
+                            prefs.saveUserModel(customerModel);
+                            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                            finish();
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<List<UserEntityModel>> call, Throwable t) {
-                        Log.e("onFailure", t.getMessage());
+                    public void onFailure(Call<CustomerModel> call, Throwable t) {
+                        Log.e("onFailure",t.getMessage());
                     }
                 });
             }

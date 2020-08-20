@@ -68,7 +68,7 @@
             android:layout_gravity="center"
             android:layout_marginHorizontal="10dp"
             android:layout_weight="1"
-            android:text="Trần Cảnh Dinh"
+            tools:text="Trần Cảnh Dinh"
             android:textColor="@color/whileColor"
             android:textSize="18dp"
             android:textStyle="bold" />
