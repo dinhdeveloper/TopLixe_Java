@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             }else {
                 layout_song.setVisibility(View.GONE);
             }
+        }else {
+            layout_song.setVisibility(View.GONE);
         }
     }
 
